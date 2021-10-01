@@ -19,8 +19,11 @@ public class User {
     private String address;
     private String password;
     private String cvu;
+    
+    @Column(unique = true)
     private String addrWallet;
-    @OneToMany
+    
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = CriptoTransaction.class)
     private List<CriptoTransaction> transactions = new ArrayList<CriptoTransaction>();
 
     public User(){}
