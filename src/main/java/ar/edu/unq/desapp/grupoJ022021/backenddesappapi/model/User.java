@@ -24,10 +24,10 @@ public class User {
     @Column(unique = true)
     private String addrWallet;
     
-    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = CriptoTransaction.class)
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CriptoTransaction.class)
     private List<CriptoTransaction> transactions = new ArrayList<CriptoTransaction>();
 
-    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = CriptoActivity.class)
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CriptoActivity.class)
     private List<CriptoActivity> activities = new ArrayList<CriptoActivity>();
 
     public User(){}
@@ -78,10 +78,10 @@ public class User {
         transactions.add(ct);
     }
 
-    public void addActivity(CriptoActivity act){
+  /*  public void addActivity(CriptoActivity act){
         activities.add(act);
     }
-
+*/
     public Long getId() {
         return id;
     }

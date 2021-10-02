@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
 import javax.persistence.*;
 
+
 @Entity
 public class CriptoActivity {
    @Id
@@ -12,7 +13,9 @@ public class CriptoActivity {
    private Double valueCripto;
    private Double amountInArs;
 
-   @ManyToOne
+  @ManyToOne
    private User user;
 
 }
+
+
