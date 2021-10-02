@@ -5,6 +5,8 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,10 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -62,5 +68,13 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByName(username);
         return new UserDetail(user.getName(),user.getPassword(), user.getId());
+    }
+
+    public void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (Exception e) {
+            throw new Exception("USER_DISABLED");
+        }
     }
 }

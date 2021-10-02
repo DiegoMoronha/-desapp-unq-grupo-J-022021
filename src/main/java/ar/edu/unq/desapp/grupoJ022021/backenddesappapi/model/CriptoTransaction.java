@@ -14,22 +14,22 @@ public class CriptoTransaction {
     private String criptoName;
     private Long criptoAmount ;
     private Long amountInArs;
-    private String  reputation;
-    private String  address;
+    private String  pointUserReceiver;
+    private String  addressToSendPay;
 
     @ManyToOne
     private User user;
 
     public CriptoTransaction(String hour, String transactionType, String criptoName, Long criptoAmount,
-                             Long amount, String reputation, String address)
+                             Long amount, String pointUserReceiver, String addressToSendPay)
     {
         this.hour = hour;
         this.transactionType = transactionType;
         this.criptoName = criptoName;
         this.criptoAmount = criptoAmount;
         this.amountInArs = amount;
-        this.reputation = reputation;
-        this.address = address;
+        this.pointUserReceiver = pointUserReceiver;
+        this.addressToSendPay = addressToSendPay;
     }
 
 
