@@ -19,12 +19,16 @@ public class User {
     private String address;
     private String password;
     private String cvu;
+    private Long reputation;
     
     @Column(unique = true)
     private String addrWallet;
     
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = CriptoTransaction.class)
     private List<CriptoTransaction> transactions = new ArrayList<CriptoTransaction>();
+
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = CriptoActivity.class)
+    private List<CriptoActivity> activities = new ArrayList<CriptoActivity>();
 
     public User(){}
 
@@ -74,6 +78,9 @@ public class User {
         transactions.add(ct);
     }
 
+    public void addActivity(CriptoActivity act){
+        activities.add(act);
+    }
 
     public Long getId() {
         return id;
@@ -82,4 +89,13 @@ public class User {
     public List<CriptoTransaction> getTransactions() {
         return transactions;
     }
+
+    public Long getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
+    }
+
 }
