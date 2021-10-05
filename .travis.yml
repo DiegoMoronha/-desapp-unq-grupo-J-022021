@@ -3,3 +3,13 @@ jdk: oraclejdk11
 
 before_install:
   - chmod +x mvnw
+  
+addons:
+  sonarcloud:
+    organization: "diegomoronha"
+    token:
+      secure: "1d03c5b8ff450723d5bd8303e07e4e72e5b1881d" # encrypted value of your token
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=DiegoMoronha_desapp-unq-grupo-J-022021
