@@ -21,16 +21,6 @@ public class CriptoPriceService {
 
     private RestTemplate restTemplate= new RestTemplate();
 
-    public CriptoPrice getCriptoBySymbol(String symbol,Double dollar,String hour){
-        String url = "https://api1.binance.com/api/v3/ticker/price?symbol="+symbol;
-        CriptoPrice cripto =restTemplate.getForObject(url, CriptoPrice.class);
-        Double priceCriptoInUsd = Double.parseDouble(cripto.getPriceUsd());
-        String priceArs =String.valueOf(priceCriptoInUsd* dollar);
-        cripto.setPriceArs(priceArs);
-        cripto.setHourCotization(hour);
-        return cripto;
-
-    }
 
     public void getCriptos(Double dollar,String hour){
         String url = "https://api1.binance.com/api/v3/ticker/price";

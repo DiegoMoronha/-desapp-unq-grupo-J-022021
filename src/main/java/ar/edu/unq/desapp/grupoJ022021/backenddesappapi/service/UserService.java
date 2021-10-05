@@ -28,17 +28,17 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
 
-    public User getUserByNameAndPassword(String name,String password) {
-        return userRepository.findByNameAndPassword(name, password);
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    public Boolean existUser(String name,String password){
-        return  getUserByNameAndPassword(name,password) != null;
+    public Boolean existUser(String email){
+        return  getUserByEmail(email) != null;
     }
 
 
     public UserDetails registerUser(UserRegisterDto userRegisterDto) throws Exception {
-        if(existUser(userRegisterDto.getName(),userRegisterDto.getPassword())){
+        if(existUser(userRegisterDto.getEmail())){
             throw new Exception("error user already exist");
         }
         else{
@@ -53,15 +53,22 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public boolean isValidUser(String email,String password){
+        return (existUser(email) && password==getUserByEmail(email).getPassword());
+
+    }
+
     public List<User> getUsers() {
       return  userRepository.findAll();
     }
 
-    public User login(String name, String password) throws Exception {
-        if(!existUser(name,password)){
-        throw  new Exception("user not exist");
+    public User login(String email, String password) throws Exception {
+        if(isValidUser(email, password)){
+            return getUserByEmail(email);
     }
-        return getUserByNameAndPassword(name,password);
+        else{
+            throw  new Exception("user not exist");
+        }
     }
 
     @Override
