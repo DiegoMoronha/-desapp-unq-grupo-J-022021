@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
@@ -39,7 +41,7 @@ public class UserService implements UserDetailsService {
 
     public UserDetails registerUser(UserRegisterDto userRegisterDto) throws Exception {
         if(existUser(userRegisterDto.getEmail())){
-            throw new Exception("error user already exist");
+            throw new UserAlreadyExistsException("Error user already exist");
         }
         else{
             User user = new User(userRegisterDto.getName(),
@@ -67,7 +69,7 @@ public class UserService implements UserDetailsService {
             return getUserByEmail(email);
     }
         else{
-            throw  new Exception("user not exist");
+            throw  new UserDoesntExistException("User not exist");
         }
     }
 
