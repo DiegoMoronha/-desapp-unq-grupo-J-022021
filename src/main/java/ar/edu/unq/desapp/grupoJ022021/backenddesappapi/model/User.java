@@ -19,8 +19,8 @@ public class User {
     private String address;
     private String password;
     private String cvu;
-    private Long reputation;
-    
+    private Long reputation=0L;
+
     @Column(unique = true)
     private String addrWallet;
     
@@ -78,10 +78,10 @@ public class User {
         transactions.add(ct);
     }
 
-  /*  public void addActivity(CriptoActivity act){
+    public void addActivity(CriptoActivity act){
         activities.add(act);
     }
-*/
+
     public Long getId() {
         return id;
     }
@@ -90,12 +90,35 @@ public class User {
         return transactions;
     }
 
+    public List<CriptoActivity> getActivities() {
+        return activities;
+    }
+
+    public void setReputation(Long rep){
+        reputation=rep;
+    }
+
     public Long getReputation() {
         return reputation;
     }
 
-    public void setReputation(Long reputation) {
-        this.reputation = reputation;
+    public void sumReputation(Long rep) {
+        this.reputation += rep;
     }
 
+    public void discountReputation(Long rep){
+        this.reputation -= rep;
+    }
+
+    public Long calculateReputation(){
+       Integer operations=transactions.size();
+       if(operations>0){
+           return reputation / operations ;
+       }
+        return reputation;
+    }
+
+    public Integer getOperations(){
+        return transactions.size();
+    }
 }

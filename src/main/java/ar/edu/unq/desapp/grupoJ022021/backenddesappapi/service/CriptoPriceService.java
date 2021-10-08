@@ -75,4 +75,5 @@ public class CriptoPriceService {
         String timeString = today.format(formatter);
         return timeString;
     }
+
 }

@@ -44,15 +44,15 @@ public class UserServiceTest {
         userService.registerUser(userTest);
     }
 
-   /* @Test
+    @Test
     public void isValidUserTest() throws Exception {
 
         userService.registerUser(userTest);
         Assert.assertTrue(userService.isValidUser("tamarae@gmail.com","1234tamara"));
-    }*/
+    }
 
     @After
     public void clear(){
-
+        userService.clearDatabase();
     }
 }

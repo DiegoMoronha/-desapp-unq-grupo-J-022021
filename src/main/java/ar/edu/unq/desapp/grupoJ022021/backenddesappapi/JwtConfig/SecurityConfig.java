@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .cors().configurationSource(corsConfigurationSource())
-                .and().authorizeRequests().antMatchers("/api/auth/register","/api/cotization","/api/users", "/h2-console/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/auth/register","/api/cotization","/api/users","/api/auth/login", "/h2-console/**").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

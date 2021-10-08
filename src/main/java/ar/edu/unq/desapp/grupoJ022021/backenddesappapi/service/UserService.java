@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
@@ -50,13 +51,13 @@ public class UserService implements UserDetailsService {
                     userRegisterDto.getCvu(),userRegisterDto.getAddrWallet());
             userRepository.save(user);
 
-            return loadUserByUsername(user.getName());
+            return loadUserByEmail(user.getEmail());
         }
 
     }
 
     public boolean isValidUser(String email,String password){
-        return (existUser(email) && password==getUserByEmail(email).getPassword());
+        return existUser(email) && password.equals(getUserByEmail(email).getPassword());
 
     }
 
@@ -64,9 +65,9 @@ public class UserService implements UserDetailsService {
       return  userRepository.findAll();
     }
 
-    public User login(String email, String password) throws Exception {
-        if(isValidUser(email, password)){
-            return getUserByEmail(email);
+    public UserDetails login(LoginUserDto user) throws Exception {
+        if(isValidUser(user.getEmail(),user.getPassword())){
+            return loadUserByEmail(user.getEmail());
     }
         else{
             throw  new UserDoesntExistException("User not exist");
@@ -79,11 +80,25 @@ public class UserService implements UserDetailsService {
         return new UserDetail(user.getName(),user.getPassword(), user.getId());
     }
 
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        return new UserDetail(user.getName(),user.getPassword(), user.getId());
+    }
+
+
     public void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
             throw new Exception("USER_DISABLED");
         }
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id);
+    }
+
+    public void clearDatabase(){
+        userRepository.deleteAllInBatch();
     }
 }

@@ -23,5 +23,4 @@ public class CriptoPriceController {
         return ResponseEntity.ok().body(cotizations);
     }
 
-
 }
