@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -20,8 +21,6 @@ public class User {
     private String password;
     private String cvu;
     private Long reputation=0L;
-
-    @Column(unique = true)
     private String addrWallet;
     
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CriptoTransaction.class)

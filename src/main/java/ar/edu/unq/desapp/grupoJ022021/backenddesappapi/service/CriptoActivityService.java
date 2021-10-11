@@ -58,11 +58,15 @@ public class CriptoActivityService {
         for (CriptoActivity act : activities){
             ActivityResultDto activity =new ActivityResultDto(act.getHour(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),
-                    act.getUser().getName(),act.getUser().getLastName(),act.getUser().getOperations(),
-                    act.getUser().getReputation());
+                    act.getUsername().getName(),act.getUsername().getLastName(),act.getUsername().getOperations(),
+                    act.getUsername().getReputation());
             res.add(activity);
         }
         return res;
+    }
+
+    public void clearDatabase(){
+        activityRepository.deleteAllInBatch();
     }
 
 }

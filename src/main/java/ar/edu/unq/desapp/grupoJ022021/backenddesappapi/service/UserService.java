@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,43 +33,80 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
 
-    public User getUserByEmail(String email) {
+    public User getUserByName(String username) {
+        return userRepository.findByName(username);
+    }
+
+    public User getUserByEmail(String email)
+    {
         return userRepository.findByEmail(email);
     }
 
-    public Boolean existUser(String email){
-        return  getUserByEmail(email) != null;
+    public User getUserByAddrWallet(String addrWallet) {
+
+        return userRepository.findByAddrWallet(addrWallet);
     }
 
 
-    public UserDetails registerUser(UserRegisterDto userRegisterDto) throws Exception {
-        if(existUser(userRegisterDto.getEmail())){
+    public Boolean existUserByUsername(String username){
+        return  getUserByName(username) != null;
+    }
+
+    public Boolean existUserByEmail(String email)
+    {
+        return  getUserByEmail(email) != null;
+
+    }
+
+    public Boolean existUserByAddrWallet(String addrWallet){
+
+        return  getUserByAddrWallet(addrWallet) != null;
+    }
+
+
+    public void verifyUserExist(String username , String email, String addrWallet){
+        if(existUserByUsername(username)||existUserByEmail(email)||
+                existUserByAddrWallet(addrWallet)){
+
             throw new UserAlreadyExistsException("Error user already exist");
         }
-        else{
+
+    }
+
+    public UserDetails registerUser(UserRegisterDto userRegisterDto) throws Exception {
+
+            verifyUserExist(userRegisterDto.getName(),userRegisterDto.getEmail(),userRegisterDto.getAddrWallet());
+
             User user = new User(userRegisterDto.getName(),
                     userRegisterDto.getLastName(),userRegisterDto.getEmail(),
                     userRegisterDto.getAddress(),userRegisterDto.getPassword(),
                     userRegisterDto.getCvu(),userRegisterDto.getAddrWallet());
             userRepository.save(user);
 
-            return loadUserByEmail(user.getEmail());
+            return loadUserByUsername(user.getName());
         }
 
+
+
+    public boolean isValidUser(String username,String password){
+        return existUserByUsername(username) && password.equals(getUserByName(username).getPassword());
+
     }
 
-    public boolean isValidUser(String email,String password){
-        return existUser(email) && password.equals(getUserByEmail(email).getPassword());
+    public List<UserResultDto> getUsers() {
+      List<UserResultDto> users = new ArrayList<>();
+        for (User user :userRepository.findAll()){
+        UserResultDto  userR = new UserResultDto(user.getName(),user.getLastName(),
+                user.getOperations(),user.getReputation());
+            users.add(userR);
+        }
 
-    }
-
-    public List<User> getUsers() {
-      return  userRepository.findAll();
+        return users ;
     }
 
     public UserDetails login(LoginUserDto user) throws Exception {
-        if(isValidUser(user.getEmail(),user.getPassword())){
-            return loadUserByEmail(user.getEmail());
+        if(isValidUser(user.getUsername(),user.getPassword())){
+            return loadUserByUsername(user.getUsername());
     }
         else{
             throw  new UserDoesntExistException("User not exist");
@@ -79,12 +118,6 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByName(username);
         return new UserDetail(user.getName(),user.getPassword(), user.getId());
     }
-
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        return new UserDetail(user.getName(),user.getPassword(), user.getId());
-    }
-
 
     public void authenticate(String username, String password) throws Exception {
         try {

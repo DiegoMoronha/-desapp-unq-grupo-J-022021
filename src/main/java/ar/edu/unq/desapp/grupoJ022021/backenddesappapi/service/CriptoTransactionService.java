@@ -34,7 +34,7 @@ public class CriptoTransactionService {
         Long id = KeyValueSaver.getUserIdLogged(token);
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         User user = userRepository.findById(userIdToNegociate);
-        if(transactionData.getTransactionType()=="buy") {
+        if(transactionData.getTransactionType().equals("buy")) {
 
             return new UserTransactionDto(user.getName(),user.getLastName(),transactionData.getCriptoName(),
                     transactionData.getCriptoAmount(),transactionData.getAmountInArs(),user.getTransactions().size(),
@@ -93,7 +93,7 @@ public class CriptoTransactionService {
     public void completeTransaction(TransactionDto transactionData, String token,Long userIdToNegociate){
         confirmTransaction(token);
        Long id = KeyValueSaver.getUserIdLogged(token);
-       if(usersCompleteTransaction(id,transactionData.getIdToNegociate())) {
+       if(usersCompleteTransaction(id,userIdToNegociate)) {
 
           LocalDateTime finishTransaction = LocalDateTime.now();
           String hour = dateHour();
@@ -158,6 +158,10 @@ public class CriptoTransactionService {
         userRepository.save(user);
         userRepository.save(userToNegociate);
 
+    }
+
+    public void clearDatabase(){
+        criptoService.deleteAllInBatch();
     }
 }
 

@@ -19,6 +19,10 @@ public class KeyValueSaver {
         putIdandIdToNegociate(iduser, idToNegociate);
     }
 
+    public static void removeLogguedUser(String token){
+            keyValues.remove(token);
+    }
+
     public static void cancelTransaction(Long id){
         userCompleteTransaction.remove(id);
     }

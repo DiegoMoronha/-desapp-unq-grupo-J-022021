@@ -29,5 +29,4 @@ public class CriptoActivityController {
                                                                           @PathVariable String cripto){
         return  ResponseEntity.ok().body(activityService.getActivitiesByTickerAndType(cripto,type));
     }
-
 }

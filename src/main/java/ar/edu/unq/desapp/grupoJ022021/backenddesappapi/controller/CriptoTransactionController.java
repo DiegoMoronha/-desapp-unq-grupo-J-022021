@@ -49,14 +49,14 @@ public class CriptoTransactionController {
         return ResponseEntity.accepted().body("accepted");
     }
 
-    @PutMapping("/api/transaction/confirm/start")
+    @GetMapping("/api/transaction/confirm/start")
     public ResponseEntity confirmStartTransaction(@RequestHeader("Authorization") String token){
         TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(token);
         return ResponseEntity.accepted().body(response);
     }
 
 
-    @PostMapping("/api/transaction/confirm/{idToNegociate}")
+    @PostMapping("/api/transaction/confirm/finish/{idToNegociate}")
     public ResponseEntity<String> completeTransaction(@RequestHeader("Authorization") String token,
                                                       @PathVariable Long idToNegociate, @RequestBody TransactionDto transaction){
         transactionService.completeTransaction(transaction,token,idToNegociate);

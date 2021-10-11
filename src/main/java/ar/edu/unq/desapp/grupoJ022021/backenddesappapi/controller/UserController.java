@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.JwtConfig.JwtTokenUtil;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ErrorLoginRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.JwtResponse;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
@@ -61,8 +62,8 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public ResponseEntity<List<User>> getUsers() {
-     List<User> users= userService.getUsers();
+    public ResponseEntity getUsers() {
+     List<UserResultDto> users= userService.getUsers();
         return ResponseEntity.ok().body(users);
     }
 

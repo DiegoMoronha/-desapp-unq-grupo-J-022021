@@ -48,7 +48,7 @@ public class UserServiceTest {
     public void isValidUserTest() throws Exception {
 
         userService.registerUser(userTest);
-        Assert.assertTrue(userService.isValidUser("tamarae@gmail.com","1234tamara"));
+        Assert.assertTrue(userService.isValidUser("TamaraElizabeth","1234tamara"));
     }
 
     @After

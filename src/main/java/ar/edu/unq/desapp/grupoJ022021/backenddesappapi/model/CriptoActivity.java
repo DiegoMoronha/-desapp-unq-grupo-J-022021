@@ -58,7 +58,7 @@ public class CriptoActivity {
         return activityType;
     }
 
-    public User getUser() {
+    public User getUsername() {
         return user;
     }
 

@@ -6,6 +6,13 @@ public class ActivityDto {
     private String amountInArs;
     private String activityType;
 
+    public ActivityDto(String criptoName, String valueCripto, String amountInArs, String activityType) {
+        this.criptoName = criptoName;
+        this.valueCripto = valueCripto;
+        this.amountInArs = amountInArs;
+        this.activityType = activityType;
+    }
+
     public String getCriptoName() {
         return criptoName;
     }
