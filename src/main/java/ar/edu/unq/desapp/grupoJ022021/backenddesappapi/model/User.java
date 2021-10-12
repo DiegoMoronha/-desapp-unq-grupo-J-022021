@@ -34,13 +34,13 @@ public class User {
     public User(String name, String lastName, String email, String address, String password
                     , String cvu, String addrWallet) throws Exception {
         super();
-        this.name = Validator.between(10,30,name,"must contain between 10 and 30 characters");
-        this.lastName= Validator.between(10,30,lastName,"must contain between 10 and 30 characters");;
+        this.name = Validator.between(10,30,name,"name must contain between 10 and 30 characters");
+        this.lastName= Validator.between(10,30,lastName,"lastName must contain between 10 and 30 characters");;
         this.email=Validator.validateEmail(email,"format email is incorrect");
-        this.address = Validator.between(0,30,address,"must contain between 8 and 30 characters");
+        this.address = Validator.between(0,30,address,"address must contain between 0 and 30 characters");
         this.password= password;
-        this.cvu= Validator.between(22,22,cvu,"must contain 22 characters");
-        this.addrWallet= Validator.between(8,8,addrWallet,"must contain 8 characters");;
+        this.cvu= Validator.between(22,22,cvu,"cvu must contain 22 characters");
+        this.addrWallet= Validator.between(8,8,addrWallet,"Address Wallet must contain 8 characters");;
 
     }
 

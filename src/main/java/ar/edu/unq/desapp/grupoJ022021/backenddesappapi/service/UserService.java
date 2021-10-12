@@ -68,7 +68,7 @@ public class UserService implements UserDetailsService {
         if(existUserByUsername(username)||existUserByEmail(email)||
                 existUserByAddrWallet(addrWallet)){
 
-            throw new UserAlreadyExistsException("Error user already exist");
+            throw new UserAlreadyExistsException("Error user with this data already exist");
         }
 
     }
