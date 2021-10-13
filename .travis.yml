@@ -1,5 +1,4 @@
 language: java
-jdk: oraclejdk11
 
 before_install:
   - chmod +x mvnw
@@ -8,8 +7,7 @@ addons:
   sonarcloud:
     organization: "diegomoronha"
     token:
-      secure: "fbff9df38cbc058ab7bddc7ccdfda56000a9d823"
+      secure: ${SONAR_TOKEN}
 
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=DiegoMoronha_desapp-unq-grupo-J-022021
-
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
