@@ -55,11 +55,13 @@ public class CriptoActivityService {
 
         List<ActivityResultDto> res = new ArrayList();
         List<CriptoActivity> activities =activityRepository.findByCriptoNameAndActivityType(ticker,actType);
+
         for (CriptoActivity act : activities){
-            ActivityResultDto activity =new ActivityResultDto(act.getHour(),act.getCriptoName(),
+            User user =act.getUser();
+            ActivityResultDto activity =new ActivityResultDto(act.getHour(),act.getId(),user.getId(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),
-                    act.getUsername().getName(),act.getUsername().getLastName(),act.getUsername().getOperations(),
-                    act.getUsername().getReputation());
+                   user.getName(),act.getUser().getLastName(),user.getOperations(),
+                    user.getReputation());
             res.add(activity);
         }
         return res;

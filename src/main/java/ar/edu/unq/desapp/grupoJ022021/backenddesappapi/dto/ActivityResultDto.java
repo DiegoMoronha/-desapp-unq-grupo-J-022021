@@ -2,6 +2,8 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
 public class ActivityResultDto {
     private String hour;
+    private Long activityId;
+    private Long userId;
     private String criptoName;
     private String valueCripto;
     private String amountInArs;
@@ -10,9 +12,11 @@ public class ActivityResultDto {
     private Integer operations;
     private Long reputation;
 
-    public ActivityResultDto(String hour, String criptoName, String valueCripto, String amountInArs, String username
-            , String lastName, Integer operations, Long reputation) {
+    public ActivityResultDto(String hour, Long activityId, Long userId, String criptoName, String valueCripto,
+                             String amountInArs, String username, String lastName, Integer operations, Long reputation) {
         this.hour = hour;
+        this.activityId = activityId;
+        this.userId = userId;
         this.criptoName = criptoName;
         this.valueCripto = valueCripto;
         this.amountInArs = amountInArs;
@@ -52,5 +56,13 @@ public class ActivityResultDto {
 
     public Long getReputation() {
         return reputation;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }

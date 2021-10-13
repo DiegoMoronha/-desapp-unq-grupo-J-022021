@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class KeyValueSaver {
 
-    private static String token ;
     private static Map<String,Long> keyValues= new HashMap<String,Long>();
     private static Map<Long,Boolean> userCompleteTransaction= new HashMap<Long,Boolean>();
     private static Map<Long,Long> exposeIdToNegociate= new HashMap<Long,Long>();
@@ -32,21 +31,11 @@ public class KeyValueSaver {
     }
 
     public static void putKeyValue(String key ,Long value){
-        setToken(key);
         keyValues.put(key,value);
     }
 
     public static Long getUserIdLogged(String key){
        return keyValues.get(key) ;
-    }
-
-
-    public static String getToken() {
-        return token;
-    }
-
-    private static void setToken(String token) {
-        KeyValueSaver.token = token;
     }
 
     private static void putIdandIdToNegociate(Long id, Long idToNegociate){
