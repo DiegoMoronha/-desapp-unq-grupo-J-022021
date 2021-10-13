@@ -4,8 +4,10 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSa
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoActivity;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoTransaction;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoActivityRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoTransactionRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class CriptoTransactionService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CriptoActivityRepository activityRepository;
 
     private LocalDateTime initTransactionHour;
 
@@ -90,8 +95,9 @@ public class CriptoTransactionService {
         KeyValueSaver.completeTransaction(id);
     }
 
-    public void completeTransaction(TransactionDto transactionData, String token,Long userIdToNegociate){
+    public void completeTransaction(Long idActivity ,String token,Long userIdToNegociate){
         confirmTransaction(token);
+        CriptoActivity activity = activityRepository.findById(idActivity).get();
        Long id = KeyValueSaver.getUserIdLogged(token);
        if(usersCompleteTransaction(id,userIdToNegociate)) {
 
@@ -99,13 +105,13 @@ public class CriptoTransactionService {
           String hour = dateHour();
           initTransactionHour.plusMinutes(30);
           Long score = generateScore(finishTransaction.isAfter(initTransactionHour));
-          CriptoTransaction transaction = new CriptoTransaction(hour,transactionData.getTransactionType()
-                        , transactionData.getCriptoName(),transactionData.getCriptoAmount(),
-                        transactionData.getAmountInArs(), score);
+          CriptoTransaction transaction = new CriptoTransaction(hour,activity.getActivityType()
+                        , activity.getCriptoName(),activity.getValueCripto(),
+                        activity.getAmountInArs(), score);
 
-            CriptoTransaction transactionUserToNegociate=new CriptoTransaction(hour,opposite(transactionData.getTransactionType())
-                    , transactionData.getCriptoName(),transactionData.getCriptoAmount(),
-                    transactionData.getAmountInArs(), score);
+            CriptoTransaction transactionUserToNegociate=new CriptoTransaction(hour,opposite(activity.getActivityType())
+                    , activity.getCriptoName(),activity.getValueCripto(),
+                    activity.getAmountInArs(), score);
 
            saveDataTransaction(id,userIdToNegociate,score,transaction,transactionUserToNegociate);
 

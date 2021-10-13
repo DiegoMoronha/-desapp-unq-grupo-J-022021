@@ -2,10 +2,14 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.DollarPrice;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoPrice;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoPriceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -14,6 +18,11 @@ import java.util.*;
 @Service
 public class CriptoPriceService {
 
+
+    @Autowired
+      private CriptoPriceRepository priceRepository;
+
+    LocalDateTime tenMinutes=LocalDateTime.now();
     List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
     List<String> criptoParities = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT",
             "DOTUSDT","ETHUSDT","CAKEUSDT","BTCUSDT","BNBUSDT");
@@ -38,15 +47,20 @@ public class CriptoPriceService {
                 criptosCotizations.add(cripto);
             }
       }
-
+            priceRepository.saveAll(criptosCotizations);
     }
 
 
     public void criptoCotizations(){
-        criptosCotizations.clear();
-        Double dollar =priceUsd();
-        String hour = dateHour();
-        getCriptos(dollar,hour);
+
+        LocalDateTime actual = LocalDateTime.now();
+        if(actual.isAfter(tenMinutes)) {
+            criptosCotizations.clear();
+            Double dollar = priceUsd();
+            String hour = dateHour();
+            getCriptos(dollar, hour);
+        }
+        tenMinutes=actual.plusMinutes(10);
     }
 
     public List<CriptoPrice> getCotizations(){

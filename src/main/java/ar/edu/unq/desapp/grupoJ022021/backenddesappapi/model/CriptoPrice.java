@@ -1,12 +1,17 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class CriptoPrice {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id  ;
     private String hourCotization;
     private String symbol;
     private String price ;

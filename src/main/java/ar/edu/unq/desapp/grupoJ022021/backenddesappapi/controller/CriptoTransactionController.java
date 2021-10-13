@@ -56,10 +56,10 @@ public class CriptoTransactionController {
     }
 
 
-    @PostMapping("/api/transaction/confirm/finish/{idToNegociate}")
+    @PostMapping("/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}")
     public ResponseEntity<String> completeTransaction(@RequestHeader("Authorization") String token,
-                                                      @PathVariable Long idToNegociate, @RequestBody TransactionDto transaction){
-        transactionService.completeTransaction(transaction,token,idToNegociate);
+                                                      @PathVariable Long idToNegociate, @PathVariable Long activityId){
+        transactionService.completeTransaction(activityId,token,idToNegociate);
         return ResponseEntity.accepted().body("completed");
     }
 
