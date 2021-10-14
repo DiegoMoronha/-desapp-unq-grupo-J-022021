@@ -4,6 +4,8 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.DollarPrice;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoPrice;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,9 @@ import java.util.*;
 @Service
 public class CriptoPriceService {
 
-
     @Autowired
       private CriptoPriceRepository priceRepository;
 
-    LocalDateTime tenMinutes=LocalDateTime.now();
-    List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
     List<String> criptoParities = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT",
             "DOTUSDT","ETHUSDT","CAKEUSDT","BTCUSDT","BNBUSDT");
 
@@ -32,6 +31,7 @@ public class CriptoPriceService {
 
 
     public void getCriptos(Double dollar,String hour){
+        List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
         String url = "https://api1.binance.com/api/v3/ticker/price";
         ResponseEntity<List<CriptoPrice>> response = restTemplate.exchange(url,HttpMethod.GET,null,
                 new ParameterizedTypeReference<List<CriptoPrice>>(){});
@@ -52,20 +52,15 @@ public class CriptoPriceService {
 
 
     public void criptoCotizations(){
-
-        LocalDateTime actual = LocalDateTime.now();
-        if(actual.isAfter(tenMinutes)) {
-            criptosCotizations.clear();
             Double dollar = priceUsd();
             String hour = dateHour();
             getCriptos(dollar, hour);
         }
-        tenMinutes=actual.plusMinutes(10);
-    }
 
+    @Cacheable("cotization")
     public List<CriptoPrice> getCotizations(){
         criptoCotizations();
-        return criptosCotizations;
+        return priceRepository.findAll();
     }
 
 
