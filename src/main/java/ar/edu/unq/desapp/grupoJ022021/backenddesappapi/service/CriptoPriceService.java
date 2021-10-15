@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class CriptoPriceService {
     private RestTemplate restTemplate= new RestTemplate();
 
 
-    public void getCriptos(Double dollar,String hour){
+    public void getCriptos(Double dollar,LocalDateTime hour){
         List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
         String url = "https://api1.binance.com/api/v3/ticker/price";
         ResponseEntity<List<CriptoPrice>> response = restTemplate.exchange(url,HttpMethod.GET,null,
@@ -53,7 +54,7 @@ public class CriptoPriceService {
 
     public void criptoCotizations(){
             Double dollar = priceUsd();
-            String hour = dateHour();
+            LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
             getCriptos(dollar, hour);
         }
 
@@ -77,12 +78,4 @@ public class CriptoPriceService {
         List<DollarPrice> result =response.getBody();
         return result.get(result.size()-1).getV();
     }
-
-    public String dateHour() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime today = LocalTime.now();
-        String timeString = today.format(formatter);
-        return timeString;
-    }
-
 }

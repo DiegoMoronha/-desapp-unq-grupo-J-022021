@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class CriptoTransaction {
@@ -9,7 +10,7 @@ public class CriptoTransaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    private String  hour;
+    private LocalDateTime hour;
     private String transactionType;
     private String criptoName;
     private String criptoAmount ;
@@ -19,7 +20,7 @@ public class CriptoTransaction {
     @ManyToOne
     private User user;
 
-    public CriptoTransaction(String hour, String transactionType, String criptoName, String criptoAmount,
+    public CriptoTransaction(LocalDateTime hour, String transactionType, String criptoName, String criptoAmount,
                              String amount, Long score)
     {
         this.hour = hour;

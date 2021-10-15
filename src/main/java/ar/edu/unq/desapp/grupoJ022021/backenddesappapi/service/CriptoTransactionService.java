@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -35,7 +36,7 @@ public class CriptoTransactionService {
 
 
     public UserTransactionDto startTransaction(String token,Long userIdToNegociate, TransactionDto transactionData){
-        initTransactionHour = LocalDateTime.now();
+        initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         Long id = KeyValueSaver.getUserIdLogged(token);
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         User user = userRepository.findById(userIdToNegociate);
@@ -101,15 +102,14 @@ public class CriptoTransactionService {
        Long id = KeyValueSaver.getUserIdLogged(token);
        if(usersCompleteTransaction(id,userIdToNegociate)) {
 
-          LocalDateTime finishTransaction = LocalDateTime.now();
-          String hour = dateHour();
+          LocalDateTime finishTransaction = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
           initTransactionHour.plusMinutes(30);
           Long score = generateScore(finishTransaction.isAfter(initTransactionHour));
-          CriptoTransaction transaction = new CriptoTransaction(hour,activity.getActivityType()
+          CriptoTransaction transaction = new CriptoTransaction(finishTransaction,activity.getActivityType()
                         , activity.getCriptoName(),activity.getValueCripto(),
                         activity.getAmountInArs(), score);
 
-            CriptoTransaction transactionUserToNegociate=new CriptoTransaction(hour,opposite(activity.getActivityType())
+            CriptoTransaction transactionUserToNegociate=new CriptoTransaction(finishTransaction,opposite(activity.getActivityType())
                     , activity.getCriptoName(),activity.getValueCripto(),
                     activity.getAmountInArs(), score);
 
@@ -140,13 +140,6 @@ public class CriptoTransactionService {
         boolean isCompleteUserTransaction =KeyValueSaver.isCompletedTransaction(id);
         boolean isCompleteUserToNegociate =KeyValueSaver.isCompletedTransaction(idToNegociate);
         return   isCompleteUserTransaction && isCompleteUserToNegociate;
-    }
-
-    public String dateHour() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime today = LocalTime.now();
-        String timeString = today.format(formatter);
-        return timeString;
     }
 
     private void saveDataTransaction(Long id, Long userIdToNegociate,Long score,CriptoTransaction transaction,
