@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.UserAlreadyExistsException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.UserDoesntExistException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;

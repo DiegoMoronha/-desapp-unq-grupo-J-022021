@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.ValidationException;
+
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -19,7 +21,7 @@ public class Validator {
             return str ;
         }
         else{
-            throw new Exception(errorMessage);
+            throw new ValidationException(errorMessage);
         }
 
     }
@@ -33,7 +35,7 @@ public class Validator {
             return email;
         }
         else{
-            throw new Exception(errorMessage);
+            throw new ValidationException(errorMessage);
         }
     }
 }

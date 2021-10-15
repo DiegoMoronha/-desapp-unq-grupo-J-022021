@@ -1,8 +1,5 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 public class UserRegisterDto {
 
     private String name;
