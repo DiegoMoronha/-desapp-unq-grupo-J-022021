@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableCaching
 @EnableAsync
 @EnableScheduling
-class CachingConfig {
+class CacheConfig {
 
     @Bean
     public CacheManager cacheManager() {

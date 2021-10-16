@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
+import java.time.LocalDateTime;
+
 public class ActivityResultDto {
-    private String hour;
+    private LocalDateTime hour;
     private Long activityId;
     private Long userId;
     private String criptoName;
@@ -12,7 +14,7 @@ public class ActivityResultDto {
     private Integer operations;
     private Long reputation;
 
-    public ActivityResultDto(String hour, Long activityId, Long userId, String criptoName, String valueCripto,
+    public ActivityResultDto(LocalDateTime hour, Long activityId, Long userId, String criptoName, String valueCripto,
                              String amountInArs, String username, String lastName, Integer operations, Long reputation) {
         this.hour = hour;
         this.activityId = activityId;
@@ -26,7 +28,7 @@ public class ActivityResultDto {
         this.reputation = reputation;
     }
 
-    public String getHour() {
+    public LocalDateTime getHour() {
         return hour;
     }
 

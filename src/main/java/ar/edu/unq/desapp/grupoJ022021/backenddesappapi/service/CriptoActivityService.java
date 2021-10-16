@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class CriptoActivityService {
     private UserRepository userRepository;
 
     public void createNewActivity(ActivityDto act,String token){
-        String hour = dateHour();
+        LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         Long userID = KeyValueSaver.getUserIdLogged(token);
         User user =userRepository.findById(userID);
         CriptoActivity activity = new CriptoActivity(hour, act.getCriptoName(),
