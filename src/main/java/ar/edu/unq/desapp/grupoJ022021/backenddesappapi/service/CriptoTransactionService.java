@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -33,32 +34,28 @@ public class CriptoTransactionService {
     private LocalDateTime initTransactionHour;
 
 
-    public UserTransactionDto startTransaction(String token,Long userIdToNegociate, TransactionDto transactionData){
+    public UserTransactionDto startTransaction(String token,Long userIdToNegociate, Long actId){
         initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
+        CriptoActivity act=activityRepository.findById(actId).get();
         Long id = KeyValueSaver.getUserIdLogged(token);
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         User user = userRepository.findById(userIdToNegociate);
-        if(transactionData.getTransactionType().equals("buy")) {
+        if(act.getActivityType().equals("buy")) {
 
-            return new UserTransactionDto(user.getName(),user.getLastName(),transactionData.getCriptoName(),
-                    transactionData.getCriptoAmount(),transactionData.getAmountInArs(),user.getTransactions().size(),
+            return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
+                    act.getValueCripto(),act.getAmountInArs(),user.getTransactions().size(),
                     user.getReputation(),user.getAddrWallet());
         }
         else{
-            return new UserTransactionDto(user.getName(),user.getLastName(),transactionData.getCriptoName(),
-                    transactionData.getCriptoAmount(),transactionData.getAmountInArs(),user.getTransactions().size(),
+            return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
+                    act.getValueCripto(),act.getAmountInArs(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
     }
 
     private boolean isTransactionInProgress(String token){
         Long iduser = KeyValueSaver.getUserIdLogged(token);
-        if( KeyValueSaver.isCompletedTransaction(iduser)==null){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return KeyValueSaver.isCompletedTransaction(iduser) !=null;
     }
 
 

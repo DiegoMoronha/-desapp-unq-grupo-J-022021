@@ -33,8 +33,7 @@ public class CriptoActivityServiceTest {
     public void setUp() throws Exception{
         KeyValueSaver.putKeyValue("hola",1L);
         activityDto = new ActivityDto("BTC","10","10000000","buy");
-        userTest1 = new UserRegisterDto("DiegoHernan","MoronhaNose","diegoh@gmail.com","392","diego1234","9876543210987654321098","VACALORO");
-        userService.registerUser(userTest1);
+
     }
 
     @Test
@@ -50,7 +49,5 @@ public class CriptoActivityServiceTest {
     @After
     public void clear(){
     KeyValueSaver.removeLogguedUser("hola");
-    activityService.clearDatabase();
-    userService.clearDatabase();
     }
 }

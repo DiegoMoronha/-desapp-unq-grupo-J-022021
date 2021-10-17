@@ -14,11 +14,11 @@ public class CriptoTransactionController {
     @Autowired
     CriptoTransactionService transactionService;
 
-    @PostMapping("/api/transaction/start/{idToNegociate}")
+    @PostMapping("/api/transaction/start/{idToNegociate}/activity/{actID}")
     public ResponseEntity<UserTransactionDto> startTransaction(@RequestHeader("Authorization")String token ,
                                                                @PathVariable Long idToNegociate,
-                                                               @RequestBody TransactionDto transactionData){
-        UserTransactionDto info = transactionService.startTransaction(token,idToNegociate,transactionData);
+                                                               @PathVariable Long actID){
+        UserTransactionDto info = transactionService.startTransaction(token,idToNegociate,actID);
         return ResponseEntity.ok().body(info);
     }
 
