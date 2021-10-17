@@ -20,8 +20,10 @@ public class CriptoTransaction {
     @ManyToOne
     private User user;
 
+    public CriptoTransaction(){}
+
     public CriptoTransaction(LocalDateTime hour, String transactionType, String criptoName, String criptoAmount,
-                             String amount, Long score)
+                             String amount, Long score,User user)
     {
         this.hour = hour;
         this.transactionType = transactionType;
@@ -29,6 +31,7 @@ public class CriptoTransaction {
         this.criptoAmount = criptoAmount;
         this.amountInArs = amount;
         this.score = score;
+        this.user= user;
     }
 
 

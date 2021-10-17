@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 @Service
 @Transactional
@@ -101,19 +99,21 @@ public class CriptoTransactionService {
         CriptoActivity activity = activityRepository.findById(idActivity).get();
        Long id = KeyValueSaver.getUserIdLogged(token);
        if(usersCompleteTransaction(id,userIdToNegociate)) {
+           User userToNegociate = userRepository.findById(userIdToNegociate);
+           User user = userRepository.findById(id);
 
-          LocalDateTime finishTransaction = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
+           LocalDateTime finishTransaction = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
           initTransactionHour.plusMinutes(30);
           Long score = generateScore(finishTransaction.isAfter(initTransactionHour));
           CriptoTransaction transaction = new CriptoTransaction(finishTransaction,activity.getActivityType()
                         , activity.getCriptoName(),activity.getValueCripto(),
-                        activity.getAmountInArs(), score);
+                        activity.getAmountInArs(), score,user);
 
             CriptoTransaction transactionUserToNegociate=new CriptoTransaction(finishTransaction,opposite(activity.getActivityType())
                     , activity.getCriptoName(),activity.getValueCripto(),
-                    activity.getAmountInArs(), score);
+                    activity.getAmountInArs(), score,userToNegociate);
 
-           saveDataTransaction(id,userIdToNegociate,score,transaction,transactionUserToNegociate);
+           saveDataTransaction(user,userToNegociate,score,transaction,transactionUserToNegociate);
 
        }
         }
@@ -142,10 +142,8 @@ public class CriptoTransactionService {
         return   isCompleteUserTransaction && isCompleteUserToNegociate;
     }
 
-    private void saveDataTransaction(Long id, Long userIdToNegociate,Long score,CriptoTransaction transaction,
+    private void saveDataTransaction(User user,User userToNegociate,Long score,CriptoTransaction transaction,
                                      CriptoTransaction transactionUserToNegociate){
-        User userToNegociate = userRepository.findById(userIdToNegociate);
-        User user = userRepository.findById(id);
         user.addTransaction(transaction);
         userToNegociate.addTransaction(transactionUserToNegociate);
         user.sumReputation(score);

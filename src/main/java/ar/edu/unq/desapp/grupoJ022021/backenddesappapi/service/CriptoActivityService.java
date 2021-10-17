@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +37,6 @@ public class CriptoActivityService {
         userRepository.save(user);
     }
 
-    public String dateHour() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime today = LocalTime.now();
-        String timeString = today.format(formatter);
-        return timeString;
-    }
 
     public List<CriptoActivity> getActivitiesByUser(String token){
         Long userID = KeyValueSaver.getUserIdLogged(token);
