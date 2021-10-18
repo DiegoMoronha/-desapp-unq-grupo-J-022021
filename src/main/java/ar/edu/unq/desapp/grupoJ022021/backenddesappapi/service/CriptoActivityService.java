@@ -26,9 +26,8 @@ public class CriptoActivityService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createNewActivity(ActivityDto act,String token){
+    public void createNewActivity(ActivityDto act,Long userID){
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
-        Long userID = KeyValueSaver.getUserIdLogged(token);
         User user =userRepository.findById(userID);
         CriptoActivity activity = new CriptoActivity(hour, act.getCriptoName(),
                 act.getValueCripto(),act.getAmountInArs(),
@@ -38,8 +37,7 @@ public class CriptoActivityService {
     }
 
 
-    public List<CriptoActivity> getActivitiesByUser(String token){
-        Long userID = KeyValueSaver.getUserIdLogged(token);
+    public List<CriptoActivity> getActivitiesByUser(Long userID){
         User user =userRepository.findById(userID);
         return activityRepository.findAllByUser(user);
     }

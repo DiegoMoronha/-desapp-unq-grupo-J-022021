@@ -4,8 +4,10 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanRes
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoTransactionService;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,16 +17,17 @@ public class CriptoTransactionController {
     CriptoTransactionService transactionService;
 
     @PostMapping("/api/transaction/start/{idToNegociate}/activity/{actID}")
-    public ResponseEntity<UserTransactionDto> startTransaction(@RequestHeader("Authorization")String token ,
-                                                               @PathVariable Long idToNegociate,
+    public ResponseEntity<UserTransactionDto> startTransaction(@PathVariable Long idToNegociate,
                                                                @PathVariable Long actID){
-        UserTransactionDto info = transactionService.startTransaction(token,idToNegociate,actID);
+        UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserTransactionDto info = transactionService.startTransaction(userDetail.getId(),idToNegociate,actID);
         return ResponseEntity.ok().body(info);
     }
 
     @PutMapping("/api/transaction/cancel")
-    public ResponseEntity<String> cancelTransaction(@RequestHeader("Authorization") String token){
-        transactionService.cancelTransaction(token);
+    public ResponseEntity<String> cancelTransaction(){
+        UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        transactionService.cancelTransaction(userDetail.getId());
         return ResponseEntity.accepted().body("accepted");
     }
 
@@ -44,22 +47,25 @@ public class CriptoTransactionController {
 
 
     @PutMapping("/api/transaction/confirm")
-    public ResponseEntity<String> confirmTransaction(@RequestHeader("Authorization") String token){
-        transactionService.confirmTransaction(token);
+    public ResponseEntity<String> confirmTransaction(){
+        UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        transactionService.confirmTransaction(userDetail.getId());
         return ResponseEntity.accepted().body("accepted");
     }
 
     @GetMapping("/api/transaction/confirm/start")
-    public ResponseEntity confirmStartTransaction(@RequestHeader("Authorization") String token){
-        TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(token);
+    public ResponseEntity confirmStartTransaction(){
+        UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(userDetail.getId());
         return ResponseEntity.accepted().body(response);
     }
 
 
     @PostMapping("/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}")
-    public ResponseEntity<String> completeTransaction(@RequestHeader("Authorization") String token,
-                                                      @PathVariable Long idToNegociate, @PathVariable Long activityId){
-        transactionService.completeTransaction(activityId,token,idToNegociate);
+    public ResponseEntity<String> completeTransaction(@PathVariable Long idToNegociate,
+                                                      @PathVariable Long activityId){
+        UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        transactionService.completeTransaction(activityId,userDetail.getId(),idToNegociate);
         return ResponseEntity.accepted().body("completed");
     }
 

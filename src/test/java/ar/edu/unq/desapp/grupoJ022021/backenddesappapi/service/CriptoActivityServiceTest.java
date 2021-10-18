@@ -31,15 +31,14 @@ public class CriptoActivityServiceTest {
 
     @Before
     public void setUp() throws Exception{
-        KeyValueSaver.putKeyValue("hola",1L);
         activityDto = new ActivityDto("BTC","10","10000000","buy");
 
     }
 
     @Test
     public void createActivityAndCheckActivitiesByTickerAndType(){
-        activityService.createNewActivity(activityDto,"hola");
-        Assert.assertTrue(activityService.getActivitiesByUser("hola").size()>0);
+        activityService.createNewActivity(activityDto,1L);
+        Assert.assertTrue(activityService.getActivitiesByUser(1L).size()>0);
         List<ActivityResultDto> res = activityService.getActivitiesByTickerAndType("BTC","buy");
         Assert.assertEquals(res.get(0).getCriptoName(),"BTC");
 
@@ -48,6 +47,5 @@ public class CriptoActivityServiceTest {
 
     @After
     public void clear(){
-    KeyValueSaver.removeLogguedUser("hola");
     }
 }

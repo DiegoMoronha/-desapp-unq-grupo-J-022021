@@ -30,11 +30,9 @@ public class CriptoTransactionServiceTest {
 
     @Test
     public void startTransactionUser1andObtainDataUser2AndNotifyUser2() {
-        KeyValueSaver.putKeyValue("hola", 1L);
-        KeyValueSaver.putKeyValue("chau", 2L);
-        UserTransactionDto res = transactionService.startTransaction("hola", 2L, 2L);
+        UserTransactionDto res = transactionService.startTransaction(1L, 2L, 2L);
         Assert.assertEquals("TamaraElizabeth", res.getUsername());
-        TransactionBooleanResponseDto res1 = transactionService.notifyStartTransaction("chau");
+        TransactionBooleanResponseDto res1 = transactionService.notifyStartTransaction(2L);
         Assert.assertTrue(res1.getActive());
         boolean userReceived1L = res1.getId() == 1L;
         Assert.assertTrue(userReceived1L);

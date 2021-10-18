@@ -34,10 +34,9 @@ public class CriptoTransactionService {
     private LocalDateTime initTransactionHour;
 
 
-    public UserTransactionDto startTransaction(String token,Long userIdToNegociate, Long actId){
+    public UserTransactionDto startTransaction(Long id,Long userIdToNegociate, Long actId){
         initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         CriptoActivity act=activityRepository.findById(actId).get();
-        Long id = KeyValueSaver.getUserIdLogged(token);
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         User user = userRepository.findById(userIdToNegociate);
         if(act.getActivityType().equals("buy")) {
@@ -53,14 +52,12 @@ public class CriptoTransactionService {
         }
     }
 
-    private boolean isTransactionInProgress(String token){
-        Long iduser = KeyValueSaver.getUserIdLogged(token);
+    private boolean isTransactionInProgress(Long iduser){
         return KeyValueSaver.isCompletedTransaction(iduser) !=null;
     }
 
 
-    public void cancelTransaction(String token){
-        Long iduser = KeyValueSaver.getUserIdLogged(token);
+    public void cancelTransaction(Long iduser){
         User user =  userRepository.findById(iduser);
         user.discountReputation(20L);
         KeyValueSaver.cancelTransaction(iduser);
@@ -78,26 +75,23 @@ public class CriptoTransactionService {
         }
     }
 
-    public TransactionBooleanResponseDto notifyStartTransaction(String token){
-        Long id = KeyValueSaver.getUserIdLogged(token);
+    public TransactionBooleanResponseDto notifyStartTransaction(Long id){
         Long idToNegociate= KeyValueSaver.getIdToNegociate(id);
-        boolean isActive =isTransactionInProgress(token);
+        boolean isActive =isTransactionInProgress(id);
         TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(idToNegociate,isActive);
         return resp;
     }
 
-    public void confirmTransaction(String token){
-        Long id = KeyValueSaver.getUserIdLogged(token);
+    public void confirmTransaction(Long id){
         KeyValueSaver.completeTransaction(id);
     }
 
-    public void completeTransaction(Long idActivity ,String token,Long userIdToNegociate){
-        confirmTransaction(token);
+    public void completeTransaction(Long idActivity ,Long idUser,Long userIdToNegociate){
+        confirmTransaction(idUser);
         CriptoActivity activity = activityRepository.findById(idActivity).get();
-       Long id = KeyValueSaver.getUserIdLogged(token);
-       if(usersCompleteTransaction(id,userIdToNegociate)) {
+       if(usersCompleteTransaction(idUser,userIdToNegociate)) {
            User userToNegociate = userRepository.findById(userIdToNegociate);
-           User user = userRepository.findById(id);
+           User user = userRepository.findById(idUser);
 
            LocalDateTime finishTransaction = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
           initTransactionHour.plusMinutes(30);

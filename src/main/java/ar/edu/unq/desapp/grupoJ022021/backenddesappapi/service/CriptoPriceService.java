@@ -2,27 +2,20 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.DollarPrice;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoPrice;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoPriceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
 @Service
 public class CriptoPriceService {
-
-    @Autowired
-      private CriptoPriceRepository priceRepository;
 
     List<String> criptoParities = Arrays.asList("ALICEUSDT","MATICUSDT","AXSUSDT","AAVEUSDT","ATOMUSDT","NEOUSDT",
             "DOTUSDT","ETHUSDT","CAKEUSDT","BTCUSDT","BNBUSDT");
@@ -31,7 +24,7 @@ public class CriptoPriceService {
     private RestTemplate restTemplate= new RestTemplate();
 
 
-    public void getCriptos(Double dollar,LocalDateTime hour){
+    public List<CriptoPrice> getCriptos(Double dollar, LocalDateTime hour){
         List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
         String url = "https://api1.binance.com/api/v3/ticker/price";
         ResponseEntity<List<CriptoPrice>> response = restTemplate.exchange(url,HttpMethod.GET,null,
@@ -41,27 +34,28 @@ public class CriptoPriceService {
 
         for (CriptoPrice cripto : criptos){
            if(criptoParities.contains(cripto.getSymbol())) {
-                Double priceCriptoInUsd = Double.parseDouble(cripto.getPriceUsd());
-                String priceArs = String.valueOf(priceCriptoInUsd * dollar);
-                cripto.setPriceArs(priceArs);
+                Double priceCriptoInUsd = cripto.getPriceUsd();
+                Double priceArs =priceCriptoInUsd * dollar;
+                DecimalFormat df = new DecimalFormat("###,###,###.00");
+                cripto.setPriceArs(df.format(priceArs));
                 cripto.setHourCotization(hour);
                 criptosCotizations.add(cripto);
             }
       }
-            priceRepository.saveAll(criptosCotizations);
+           return criptosCotizations;
     }
 
 
-    public void criptoCotizations(){
+    public List<CriptoPrice> criptoCotizations(){
             Double dollar = priceUsd();
-            LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
-            getCriptos(dollar, hour);
+            LocalDateTime hour =  LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
+         return  getCriptos(dollar, hour);
         }
 
     @Cacheable("cotization")
     public List<CriptoPrice> getCotizations(){
-        criptoCotizations();
-        return priceRepository.findAll();
+
+        return criptoCotizations();
     }
 
 

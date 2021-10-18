@@ -23,7 +23,7 @@ class CacheConfig {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void clearCache() {
-    cacheManager().getCache("cotization").clear();
+        cacheManager().getCache("cotization").clear();
     }
 
 }

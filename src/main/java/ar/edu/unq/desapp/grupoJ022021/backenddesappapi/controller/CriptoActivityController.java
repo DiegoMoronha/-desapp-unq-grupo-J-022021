@@ -3,9 +3,11 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoActivityService;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,9 @@ public class CriptoActivityController {
 
 
     @PostMapping("/api/activity/create")
-    public HttpStatus createActivity(@RequestHeader("Authorization")String token, @RequestBody ActivityDto act){
-        activityService.createNewActivity(act,token);
+    public HttpStatus createActivity(@RequestBody ActivityDto act){
+        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        activityService.createNewActivity(act,userDetail.getId());
         return HttpStatus.CREATED;
     }
 
