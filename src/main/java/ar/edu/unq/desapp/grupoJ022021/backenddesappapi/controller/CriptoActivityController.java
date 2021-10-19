@@ -4,6 +4,8 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoActivityService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class CriptoActivityController {
     CriptoActivityService activityService;
 
 
-
+    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
     @PostMapping("/api/activity/create")
     public HttpStatus createActivity(@RequestBody ActivityDto act){
         UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -27,6 +29,7 @@ public class CriptoActivityController {
         return HttpStatus.CREATED;
     }
 
+    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
     @GetMapping("/api/activity/{type}/cripto/{cripto}")
     public ResponseEntity<List<ActivityResultDto>> getActByTypeAndCripto (@PathVariable String type ,
                                                                           @PathVariable String cripto){

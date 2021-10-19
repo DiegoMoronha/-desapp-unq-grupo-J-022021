@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.JwtConfig.JwtTokenUtil;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Config.JwtTokenUtil;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ErrorLoginRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.JwtResponse;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
@@ -19,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-
 public class UserController {
     @Autowired
     private UserService userService;

@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.JwtConfig;
+package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Config;
 
 import java.io.IOException;
 import java.io.Serializable;

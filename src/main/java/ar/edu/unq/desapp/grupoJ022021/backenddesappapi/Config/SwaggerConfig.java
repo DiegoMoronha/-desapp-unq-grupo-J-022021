@@ -1,10 +1,12 @@
-package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
+package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Config;
 
+import org.assertj.core.util.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -24,14 +26,19 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .securitySchemes(Lists.newArrayList(apiKey()));
+    }
+
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Cripto P2P API",
                 "Cripto P2P API Description",
-                "1.0",
+                "2.0",
                 "Terms of service",
                 new Contact("Tamara Benitez", "www.example.com", "tamaraelizabethbenitez98@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
