@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoActivityService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api(tags = "Activity")
 public class CriptoActivityController {
 
 @Autowired

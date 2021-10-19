@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoTransactionService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Api(tags = "Transactions")
 public class CriptoTransactionController {
 
     @Autowired

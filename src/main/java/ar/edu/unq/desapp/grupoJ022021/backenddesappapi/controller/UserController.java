@@ -9,6 +9,7 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.JwtResponse;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Api(tags = "Users")
 public class UserController {
     @Autowired
     private UserService userService;
