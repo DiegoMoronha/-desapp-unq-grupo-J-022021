@@ -31,7 +31,7 @@ public class CriptoActivityServiceTest {
 
     @Before
     public void setUp() throws Exception{
-        activityDto = new ActivityDto("BTC","10","10000000","buy");
+        activityDto = new ActivityDto("BTC","1.000.000,00",10L,"10000000","buy");
 
     }
 

@@ -11,6 +11,7 @@ public class CriptoActivity {
    private Long id;
    private LocalDateTime hour;
    private String criptoName;
+   private Long nominals;
    private String valueCripto;
    private String amountInArs;
    private String activityType;
@@ -22,14 +23,16 @@ public class CriptoActivity {
 
    public CriptoActivity(){}
 
-    public CriptoActivity(LocalDateTime hour, String criptoName, String valueCripto, String amountInArs,
-                          String activityType, User user) {
+    public CriptoActivity(LocalDateTime hour, String criptoName, Long nominals,
+                          String valueCripto, String amountInArs, String activityType,
+                          User user) {
         this.hour = hour;
         this.criptoName = criptoName;
+        this.nominals = nominals;
         this.valueCripto = valueCripto;
         this.amountInArs = amountInArs;
+        this.activityType = activityType;
         this.user = user;
-        this.activityType=activityType;
     }
 
     public Long getId() {
@@ -61,6 +64,11 @@ public class CriptoActivity {
 
     public User getUser() {
         return user;
+    }
+
+
+    public Long getNominals() {
+        return nominals;
     }
 
 

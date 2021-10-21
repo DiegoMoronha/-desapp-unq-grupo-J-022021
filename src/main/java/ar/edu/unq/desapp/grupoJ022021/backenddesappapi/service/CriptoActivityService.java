@@ -30,6 +30,7 @@ public class CriptoActivityService {
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         User user =userRepository.findById(userID);
         CriptoActivity activity = new CriptoActivity(hour, act.getCriptoName(),
+                act.getNominals(),
                 act.getValueCripto(),act.getAmountInArs(),
                 act.getActivityType(),user);
         user.addActivity(activity);

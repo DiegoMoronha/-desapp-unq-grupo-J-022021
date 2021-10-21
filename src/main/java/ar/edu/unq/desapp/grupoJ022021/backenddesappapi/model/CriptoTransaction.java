@@ -13,6 +13,7 @@ public class CriptoTransaction {
     private LocalDateTime hour;
     private String transactionType;
     private String criptoName;
+    private Long nominals;
     private String criptoAmount ;
     private String amountInArs;
     private Long  score;
@@ -22,17 +23,15 @@ public class CriptoTransaction {
 
     public CriptoTransaction(){}
 
-    public CriptoTransaction(LocalDateTime hour, String transactionType, String criptoName, String criptoAmount,
-                             String amount, Long score,User user)
-    {
+    public CriptoTransaction(LocalDateTime hour, String transactionType, String criptoName, Long nominals,
+                             String criptoAmount, String amountInArs, Long score, User user) {
         this.hour = hour;
         this.transactionType = transactionType;
         this.criptoName = criptoName;
+        this.nominals = nominals;
         this.criptoAmount = criptoAmount;
-        this.amountInArs = amount;
+        this.amountInArs = amountInArs;
         this.score = score;
-        this.user= user;
+        this.user = user;
     }
-
-
 }
