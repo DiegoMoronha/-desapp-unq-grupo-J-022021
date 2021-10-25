@@ -4,19 +4,22 @@ public class UserTransactionDto {
     private String username;
     private String lastName;
     private String criptoName;
-    private String valueCripto;
+    private String cotization;
     private String amountInArs;
+    private Long nominals;
     private Integer operations;
     private Long reputation;
     private String addrOrCvu;
 
-    public UserTransactionDto(String username, String lastName, String criptoName, String valueCripto, String amountInArs,
-                              Integer operations, Long reputation, String addrOrCvu) {
+    public UserTransactionDto(String username, String lastName, String criptoName,
+                              String valueCripto, String amountInArs, Long nominals, Integer operations,
+                              Long reputation, String addrOrCvu) {
         this.username = username;
         this.lastName = lastName;
         this.criptoName = criptoName;
-        this.valueCripto = valueCripto;
+        this.cotization = valueCripto;
         this.amountInArs = amountInArs;
+        this.nominals = nominals;
         this.operations = operations;
         this.reputation = reputation;
         this.addrOrCvu = addrOrCvu;
@@ -34,8 +37,8 @@ public class UserTransactionDto {
         return criptoName;
     }
 
-    public String getValueCripto() {
-        return valueCripto;
+    public String getCotization() {
+        return cotization;
     }
 
     public String getAmountInArs() {
@@ -52,5 +55,9 @@ public class UserTransactionDto {
 
     public String getAddrOrCvu() {
         return addrOrCvu;
+    }
+
+    public Long getNominals() {
+        return nominals;
     }
 }

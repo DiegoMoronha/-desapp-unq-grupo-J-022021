@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .cors().configurationSource(corsConfigurationSource())
-                .and().authorizeRequests().antMatchers("/api/auth/register","/api/cotization","/api/users","/api/auth/login", "/h2-console/**", "/swagger-ui/**", "swagger-ui.html", "/swagger-resources/**", "/v2/api-docs/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/auth/register","/api/users","/api/auth/login", "/h2-console/**", "/swagger-ui/**", "swagger-ui.html", "/swagger-resources/**", "/v2/api-docs/**").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

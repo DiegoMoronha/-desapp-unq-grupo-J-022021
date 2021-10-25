@@ -40,12 +40,12 @@ public class CriptoTransactionService {
         if(act.getActivityType().equals("buy")) {
 
             return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
-                    act.getValueCripto(),act.getAmountInArs(),user.getTransactions().size(),
+                    act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getAddrWallet());
         }
         else{
             return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
-                    act.getValueCripto(),act.getAmountInArs(),user.getTransactions().size(),
+                    act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
     }

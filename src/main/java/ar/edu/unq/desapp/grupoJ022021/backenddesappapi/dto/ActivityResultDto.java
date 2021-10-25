@@ -8,19 +8,23 @@ public class ActivityResultDto {
     private Long userId;
     private String criptoName;
     private String valueCripto;
+    private Long nominals;
     private String amountInArs;
     private String username;
     private String lastName;
     private Integer operations;
     private Long reputation;
 
-    public ActivityResultDto(LocalDateTime hour, Long activityId, Long userId, String criptoName, String valueCripto,
-                             String amountInArs, String username, String lastName, Integer operations, Long reputation) {
+    public ActivityResultDto(LocalDateTime hour, Long activityId, Long userId,
+                             String criptoName, String valueCripto, Long nominals,
+                             String amountInArs, String username, String lastName,
+                             Integer operations, Long reputation) {
         this.hour = hour;
         this.activityId = activityId;
         this.userId = userId;
         this.criptoName = criptoName;
         this.valueCripto = valueCripto;
+        this.nominals = nominals;
         this.amountInArs = amountInArs;
         this.username = username;
         this.lastName = lastName;
@@ -67,4 +71,6 @@ public class ActivityResultDto {
     public Long getUserId() {
         return userId;
     }
+
+    public Long getNominals(){return nominals;}
 }

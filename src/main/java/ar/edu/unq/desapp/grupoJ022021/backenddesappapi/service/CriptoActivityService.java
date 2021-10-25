@@ -52,7 +52,7 @@ public class CriptoActivityService {
         for (CriptoActivity act : activities){
             User user =act.getUser();
             ActivityResultDto activity =new ActivityResultDto(act.getHour(),act.getId(),user.getId(),act.getCriptoName(),
-                    act.getValueCripto(),act.getAmountInArs(),
+                    act.getValueCripto(),act.getNominals(),act.getAmountInArs(),
                    user.getName(),act.getUser().getLastName(),user.getOperations(),
                     user.getReputation());
             res.add(activity);
