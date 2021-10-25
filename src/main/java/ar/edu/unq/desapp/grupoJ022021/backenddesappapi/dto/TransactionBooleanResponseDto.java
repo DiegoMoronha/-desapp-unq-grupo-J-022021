@@ -4,10 +4,18 @@ public class TransactionBooleanResponseDto {
     private Long id = null;
     private Boolean isActive;
     private String err_msg = null ;
+    private Long activityId =null;
 
     public TransactionBooleanResponseDto(Long id, Boolean isActive) {
         this.id = id;
         this.isActive = isActive;
+    }
+
+
+    public TransactionBooleanResponseDto(Long id, Boolean isActive,Long activityId) {
+        this.id = id;
+        this.isActive = isActive;
+        this.activityId=activityId;
     }
 
     public TransactionBooleanResponseDto() {
@@ -30,5 +38,7 @@ public class TransactionBooleanResponseDto {
     public String getErr_msg() {
         return err_msg;
     }
+
+    public Long getActivityId(){return activityId;}
 
 }

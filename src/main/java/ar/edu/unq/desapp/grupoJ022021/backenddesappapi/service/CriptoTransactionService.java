@@ -36,6 +36,7 @@ public class CriptoTransactionService {
         initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         CriptoActivity act=activityRepository.findById(actId).get();
         KeyValueSaver.initTransaction(id,userIdToNegociate);
+        KeyValueSaver.markActivityId(userIdToNegociate,actId);
         User user = userRepository.findById(userIdToNegociate);
         if(act.getActivityType().equals("buy")) {
 
@@ -76,7 +77,8 @@ public class CriptoTransactionService {
     public TransactionBooleanResponseDto notifyStartTransaction(Long id){
         Long idToNegociate= KeyValueSaver.getIdToNegociate(id);
         boolean isActive =isTransactionInProgress(id);
-        TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(idToNegociate,isActive);
+        Long actId = KeyValueSaver.activityUser(id);
+        TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(idToNegociate,isActive,actId);
         return resp;
     }
 
