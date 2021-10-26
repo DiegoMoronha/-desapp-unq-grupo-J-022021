@@ -43,10 +43,6 @@ public class CriptoActivityService {
         return activityRepository.findAllByUser(user);
     }
 
-    public CriptoActivity getActivityByUser(Long userID){
-        User user =userRepository.findById(userID);
-        return activityRepository.findByUser(user);
-    }
 
     public List<ActivityResultDto> getActivitiesByTickerAndType(String ticker ,String  actType){
 

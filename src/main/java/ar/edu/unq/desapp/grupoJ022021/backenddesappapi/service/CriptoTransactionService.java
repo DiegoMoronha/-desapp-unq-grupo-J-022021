@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -33,24 +34,46 @@ public class CriptoTransactionService {
 
 
     public UserTransactionDto startTransaction(Long id,Long userIdToNegociate, Long actId){
+       if(initTransactionHour ==null){
         initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
+       }
         CriptoActivity act=activityRepository.findById(actId).get();
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         KeyValueSaver.markActivityId(userIdToNegociate,actId);
         User user = userRepository.findById(userIdToNegociate);
-        boolean userCreatedActivity = activityRepository.findByUser(user).getId() == actId;
+        boolean userCreatedActivity = activityRepository.findByIdAndUser(actId,userIdToNegociate)!=null;
         if(act.getActivityType().equals("buy") && userCreatedActivity) {
 
             return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
-                    user.getReputation(),user.getAddrWallet());
+                    user.getReputation(),user.getCvu());
         }
         else{
+            return checkSellOptionOrDefaultBuy(act,user,userCreatedActivity);
+        }
+    }
+
+
+    private UserTransactionDto checkSellOptionOrDefaultBuy(CriptoActivity act,User user, boolean userCreatedActivity){
+        if(act.getActivityType().equals("sell") && userCreatedActivity){
             return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
-    }
+        else if(act.getActivityType().equals("sell") && !userCreatedActivity) {
+                return new UserTransactionDto(initTransactionHour, user.getName(), user.getLastName(), act.getCriptoName(),
+                        act.getValueCripto(), act.getAmountInArs(), act.getNominals(), user.getTransactions().size(),
+                        user.getReputation(), user.getAddrWallet());
+            }
+            else{
+                return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
+                        act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
+                        user.getReputation(),user.getAddrWallet());
+            }
+        }
+
+        
+
 
     private boolean isTransactionInProgress(Long iduser){
         return KeyValueSaver.isCompletedTransaction(iduser) !=null;
