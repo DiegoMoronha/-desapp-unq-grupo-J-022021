@@ -38,14 +38,15 @@ public class CriptoTransactionService {
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         KeyValueSaver.markActivityId(userIdToNegociate,actId);
         User user = userRepository.findById(userIdToNegociate);
-        if(act.getActivityType().equals("buy")) {
+        boolean userCreatedActivity = activityRepository.findByUser(user).getId() == actId;
+        if(act.getActivityType().equals("buy") && userCreatedActivity) {
 
-            return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
+            return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getAddrWallet());
         }
         else{
-            return new UserTransactionDto(user.getName(),user.getLastName(),act.getCriptoName(),
+            return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
@@ -104,6 +105,7 @@ public class CriptoTransactionService {
                     , activity.getCriptoName(),activity.getNominals(),activity.getValueCripto(),
                     activity.getAmountInArs(), score,userToNegociate);
 
+           KeyValueSaver.removeData(userIdToNegociate,idUser);
            saveDataTransaction(user,userToNegociate,score,transaction,transactionUserToNegociate);
 
        }

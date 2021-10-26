@@ -44,6 +44,14 @@ public class KeyValueSaver {
         exposeIdToNegociate.put(idToNegociate,id);
     }
 
+    public static void removeData(Long userBuy, Long userSell){
+        exposeIdToNegociate.remove(userSell);
+        cancelTransaction(userBuy);
+        cancelTransaction(userSell);
+        assocActivityWithUnegociate.remove(userBuy);
+        assocActivityWithUnegociate.remove(userSell);
+    }
+
     public static Long getIdToNegociate(Long id){
         return exposeIdToNegociate.get(id);
     }

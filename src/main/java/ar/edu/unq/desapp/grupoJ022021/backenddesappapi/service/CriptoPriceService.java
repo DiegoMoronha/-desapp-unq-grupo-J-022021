@@ -24,6 +24,20 @@ public class CriptoPriceService {
     private RestTemplate restTemplate= new RestTemplate();
 
 
+    public CriptoPrice getCotizationBySymbol(String symbol) {
+        Double dollar = priceUsd();
+        LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
+        String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
+        CriptoPrice cripto = restTemplate.getForObject(url, CriptoPrice.class);
+        Double priceCriptoInUsd = cripto.getPriceUsd();
+        Double priceArs = priceCriptoInUsd * dollar;
+        DecimalFormat df = new DecimalFormat("###,###,###.00");
+        cripto.setPriceArs(df.format(priceArs));
+        cripto.setHourCotization(hour);
+
+        return cripto;
+    }
+
     public List<CriptoPrice> getCriptos(Double dollar, LocalDateTime hour){
         List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
         String url = "https://api1.binance.com/api/v3/ticker/price";

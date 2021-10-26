@@ -1,6 +1,10 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
+import java.time.LocalDateTime;
+
 public class UserTransactionDto {
+
+    private LocalDateTime hour;
     private String username;
     private String lastName;
     private String criptoName;
@@ -11,9 +15,10 @@ public class UserTransactionDto {
     private Long reputation;
     private String addrOrCvu;
 
-    public UserTransactionDto(String username, String lastName, String criptoName,
+    public UserTransactionDto(LocalDateTime hour,String username, String lastName, String criptoName,
                               String valueCripto, String amountInArs, Long nominals, Integer operations,
                               Long reputation, String addrOrCvu) {
+        this.hour=hour;
         this.username = username;
         this.lastName = lastName;
         this.criptoName = criptoName;
@@ -60,4 +65,6 @@ public class UserTransactionDto {
     public Long getNominals() {
         return nominals;
     }
+
+    public LocalDateTime getHour(){return hour;}
 }

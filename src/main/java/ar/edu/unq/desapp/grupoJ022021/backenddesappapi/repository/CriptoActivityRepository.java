@@ -11,6 +11,8 @@ public interface CriptoActivityRepository extends JpaRepository<CriptoActivity, 
 
    Optional<CriptoActivity> findById(Long id);
 
+   CriptoActivity findByUser(User user);
+
    List<CriptoActivity> findAllByUser(User user);
 
    List<CriptoActivity> findByCriptoNameAndActivityType(String criptoName , String activityType);
