@@ -87,8 +87,9 @@ public class CriptoTransactionService {
         userRepository.save(user);
     }
 
-    public TransactionBooleanResponseDto checkUserCompleteSend(Long userID) throws Exception {
+    public TransactionBooleanResponseDto checkUserCompleteSend(Long selfUserId ,Long userID) throws Exception {
         if(KeyValueSaver.isCompletedTransaction(userID) == null){
+            KeyValueSaver.removeData(selfUserId,userID);
             throw new Exception("the transaction was canceled");
         }
         else {

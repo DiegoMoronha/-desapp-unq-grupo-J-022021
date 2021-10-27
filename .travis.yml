@@ -2,12 +2,3 @@ language: java
 
 before_install:
   - chmod +x mvnw
-
-addons:
-  sonarcloud:
-    organization: "diegomoronha"
-    token:
-      secure: ${SONAR_TOKEN}
-
-script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar

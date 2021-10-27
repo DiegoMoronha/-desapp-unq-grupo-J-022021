@@ -40,7 +40,8 @@ public class CriptoTransactionController {
     @GetMapping("/api/transaction/send/{idToNegociate}")
     public ResponseEntity checkUserCompleteSend(@PathVariable Long idToNegociate) throws Exception {
         try {
-            TransactionBooleanResponseDto response = transactionService.checkUserCompleteSend(idToNegociate);
+            UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            TransactionBooleanResponseDto response = transactionService.checkUserCompleteSend(userDetail.getId(),idToNegociate);
             return ResponseEntity.ok().body(response);
         }
         catch (Exception e ){
