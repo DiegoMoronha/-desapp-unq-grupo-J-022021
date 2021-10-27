@@ -130,6 +130,7 @@ public class CriptoTransactionService {
                     activity.getAmountInArs(), score,userToNegociate);
 
            KeyValueSaver.removeData(userIdToNegociate,idUser);
+           confirmTransaction(idUser);
            saveDataTransaction(user,userToNegociate,score,transaction,transactionUserToNegociate);
 
        }
@@ -168,7 +169,7 @@ public class CriptoTransactionService {
         Long reputationUser =user.calculateReputation();
         Long reputationUserToNegociate = user.calculateReputation();
         user.setReputation(reputationUser);
-        user.setReputation(reputationUserToNegociate);
+        userToNegociate.setReputation(reputationUserToNegociate);
         userRepository.save(user);
         userRepository.save(userToNegociate);
 
