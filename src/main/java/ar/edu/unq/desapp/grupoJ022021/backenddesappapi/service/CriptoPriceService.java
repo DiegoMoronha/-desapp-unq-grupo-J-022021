@@ -74,16 +74,11 @@ public class CriptoPriceService {
 
 
     public Double priceUsd(){
-        String authToken ="eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NjQ0MTkzMjQsInR5cGUiOiJleHRlcm5hbCIsInVzZXIiOiJkaWVnb21vcm9uaGFAZ21haWwuY29tIn0.Tr24F-ipWDyXqbi-Z_rT-KAavVFE-OGqQxmBq9Fr-8ibNnhP6RMsuEz1vcbjPoySKEOPwm1VcGvqzoXGt2zI1g";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add("Authorization", "BEARER "+ authToken );
-       String url ="https://api.estadisticasbcra.com/usd";
-        ResponseEntity<List<DollarPrice>> response = restTemplate.exchange(url, HttpMethod.GET,
-                new HttpEntity<>("parameters", headers),
-                new ParameterizedTypeReference<List<DollarPrice>>(){});
+       String url ="https://api-dolar-argentina.herokuapp.com/api/dolarblue";
+        DollarPrice dolarPrice = restTemplate.getForObject(url,DollarPrice.class);
 
-        List<DollarPrice> result =response.getBody();
-        return result.get(result.size()-1).getV();
+
+
+        return dolarPrice.getVenta();
     }
 }
