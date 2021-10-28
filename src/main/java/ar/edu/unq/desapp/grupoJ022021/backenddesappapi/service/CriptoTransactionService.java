@@ -89,12 +89,16 @@ public class CriptoTransactionService {
 
     public TransactionBooleanResponseDto checkUserCompleteSend(Long selfUserId ,Long userID) throws Exception {
         if(KeyValueSaver.isCompletedTransaction(userID) == null){
-            KeyValueSaver.removeData(selfUserId,userID);
+            KeyValueSaver.removeData(userID,selfUserId);
             throw new Exception("the transaction was canceled");
         }
         else {
            boolean active =KeyValueSaver.isCompletedTransaction(userID);
+            boolean activeSelf =KeyValueSaver.isCompletedTransaction(selfUserId);
            TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(userID,active);
+            if(active && activeSelf){
+                KeyValueSaver.removeData(selfUserId,userID);
+            }
             return resp;
         }
     }
@@ -129,8 +133,8 @@ public class CriptoTransactionService {
                     , activity.getCriptoName(),activity.getNominals(),activity.getValueCripto(),
                     activity.getAmountInArs(), score,userToNegociate);
 
+
            confirmTransaction(idUser);
-           KeyValueSaver.removeData(userIdToNegociate,idUser);
            saveDataTransaction(user,userToNegociate,score,transaction,transactionUserToNegociate);
 
        }
