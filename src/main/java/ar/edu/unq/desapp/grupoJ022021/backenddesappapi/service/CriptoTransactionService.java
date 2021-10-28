@@ -129,8 +129,8 @@ public class CriptoTransactionService {
                     , activity.getCriptoName(),activity.getNominals(),activity.getValueCripto(),
                     activity.getAmountInArs(), score,userToNegociate);
 
-           KeyValueSaver.removeData(userIdToNegociate,idUser);
            confirmTransaction(idUser);
+           KeyValueSaver.removeData(userIdToNegociate,idUser);
            saveDataTransaction(user,userToNegociate,score,transaction,transactionUserToNegociate);
 
        }
