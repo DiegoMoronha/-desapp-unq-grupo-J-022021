@@ -2,13 +2,13 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
 public class ActivityDto {
     private String criptoName;
-    private String valueCripto;
+    private Double valueCripto;
     private Long nominals;
-    private String amountInArs;
+    private Double amountInArs;
     private String activityType;
 
-    public ActivityDto(String criptoName, String valueCripto,
-                       Long nominals, String amountInArs, String activityType) {
+    public ActivityDto(String criptoName, Double valueCripto,
+                       Long nominals, Double amountInArs, String activityType) {
         this.criptoName = criptoName;
         this.valueCripto = valueCripto;
         this.nominals = nominals;
@@ -24,11 +24,11 @@ public class ActivityDto {
         return criptoName;
     }
 
-    public String getValueCripto() {
+    public Double getValueCripto() {
         return valueCripto;
     }
 
-    public String getAmountInArs() {
+    public Double getAmountInArs() {
         return amountInArs;
     }
 

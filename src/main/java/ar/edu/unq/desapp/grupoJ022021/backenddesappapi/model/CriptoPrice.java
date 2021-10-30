@@ -8,7 +8,7 @@ public class CriptoPrice {
     private LocalDateTime hourCotization;
     private String symbol;
     private Double price ;
-    private String priceArs;
+    private Double priceArs;
 
     public void setPrice(Double price) {
         this.price = price;
@@ -28,10 +28,10 @@ public class CriptoPrice {
     }
 
 
-    public void setPriceArs(String priceArs) {
+    public void setPriceArs(Double priceArs) {
         this.priceArs = priceArs;
     }
-    public String getPriceArs() {
+    public Double getPriceArs() {
         return priceArs;
     }
 

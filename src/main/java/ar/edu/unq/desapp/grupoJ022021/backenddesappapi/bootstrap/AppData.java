@@ -37,11 +37,11 @@ public class AppData implements ApplicationRunner {
                 "1234567890123456789012","87654321");
         User u2 =new User("TamaraElizabeth","BenitezAlegre","tamaraelizabethbenitez98@gmail.com","no recuerdo","1234",
                 "1234567890123456789013","97654321");
-        CriptoTransaction t1=new CriptoTransaction(LocalDateTime.now(),"buy","ETH",1L,"10","10.000,00",10L,u1);
-        CriptoTransaction t2= new CriptoTransaction(LocalDateTime.now(),"sell","ETH",1L,"10","10.000,00",10L,u2);
-        CriptoActivity a1 = new CriptoActivity(LocalDateTime.now(),"BTC",1l,"10","1.000.000,00","buy",u1);
-        CriptoActivity a2 = new CriptoActivity(LocalDateTime.now(),"BTC",10L,"50","100.000.000.000,00","buy",u2);
-        CriptoActivity a3 = new CriptoActivity(LocalDateTime.now(),"ADA",10L,"50","100.000.000.000,00","sell",u1);
+        CriptoTransaction t1=new CriptoTransaction(LocalDateTime.now(),"buy","ETH",1L,10.0,10.000,10L,u1);
+        CriptoTransaction t2= new CriptoTransaction(LocalDateTime.now(),"sell","ETH",1L,10.0,10.000,10L,u2);
+        CriptoActivity a1 = new CriptoActivity(LocalDateTime.now(),"BTC",1l,10.0,1.000,"buy",u1);
+        CriptoActivity a2 = new CriptoActivity(LocalDateTime.now(),"BTC",10L,50.0,100.000,"buy",u2);
+        CriptoActivity a3 = new CriptoActivity(LocalDateTime.now(),"ADA",10L,50.0,100.000,"sell",u1);
 
         u1.setReputation(10L);
         u2.setReputation(10L);

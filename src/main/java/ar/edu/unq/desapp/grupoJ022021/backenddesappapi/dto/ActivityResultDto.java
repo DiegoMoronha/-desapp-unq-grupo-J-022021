@@ -7,17 +7,17 @@ public class ActivityResultDto {
     private Long activityId;
     private Long userId;
     private String criptoName;
-    private String valueCripto;
+    private Double valueCripto;
     private Long nominals;
-    private String amountInArs;
+    private Double amountInArs;
     private String username;
     private String lastName;
     private Integer operations;
     private Long reputation;
 
     public ActivityResultDto(LocalDateTime hour, Long activityId, Long userId,
-                             String criptoName, String valueCripto, Long nominals,
-                             String amountInArs, String username, String lastName,
+                             String criptoName, Double valueCripto, Long nominals,
+                             Double amountInArs, String username, String lastName,
                              Integer operations, Long reputation) {
         this.hour = hour;
         this.activityId = activityId;
@@ -40,11 +40,11 @@ public class ActivityResultDto {
         return criptoName;
     }
 
-    public String getValueCripto() {
+    public Double getValueCripto() {
         return valueCripto;
     }
 
-    public String getAmountInArs() {
+    public Double getAmountInArs() {
         return amountInArs;
     }
 

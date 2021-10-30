@@ -31,8 +31,7 @@ public class CriptoPriceService {
         CriptoPrice cripto = restTemplate.getForObject(url, CriptoPrice.class);
         Double priceCriptoInUsd = cripto.getPriceUsd();
         Double priceArs = priceCriptoInUsd * dollar;
-        DecimalFormat df = new DecimalFormat("###,###,###.00");
-        cripto.setPriceArs(df.format(priceArs));
+        cripto.setPriceArs(priceArs);
         cripto.setHourCotization(hour);
 
         return cripto;
@@ -50,8 +49,7 @@ public class CriptoPriceService {
            if(criptoParities.contains(cripto.getSymbol())) {
                 Double priceCriptoInUsd = cripto.getPriceUsd();
                 Double priceArs =priceCriptoInUsd * dollar;
-                DecimalFormat df = new DecimalFormat("###,###,###.00");
-                cripto.setPriceArs(df.format(priceArs));
+                cripto.setPriceArs(priceArs);
                 cripto.setHourCotization(hour);
                 criptosCotizations.add(cripto);
             }

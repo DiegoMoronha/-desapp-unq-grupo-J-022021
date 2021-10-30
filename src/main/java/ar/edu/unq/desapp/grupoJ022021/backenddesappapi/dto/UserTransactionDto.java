@@ -8,15 +8,15 @@ public class UserTransactionDto {
     private String username;
     private String lastName;
     private String criptoName;
-    private String cotization;
-    private String amountInArs;
+    private Double cotization;
+    private Double amountInArs;
     private Long nominals;
     private Integer operations;
     private Long reputation;
     private String addrOrCvu;
 
     public UserTransactionDto(LocalDateTime hour,String username, String lastName, String criptoName,
-                              String valueCripto, String amountInArs, Long nominals, Integer operations,
+                              Double valueCripto, Double amountInArs, Long nominals, Integer operations,
                               Long reputation, String addrOrCvu) {
         this.hour=hour;
         this.username = username;
@@ -42,11 +42,11 @@ public class UserTransactionDto {
         return criptoName;
     }
 
-    public String getCotization() {
+    public Double getCotization() {
         return cotization;
     }
 
-    public String getAmountInArs() {
+    public Double getAmountInArs() {
         return amountInArs;
     }
 
