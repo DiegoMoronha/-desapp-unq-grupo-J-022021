@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoActivityService;
@@ -23,16 +24,18 @@ public class CriptoActivityController {
     CriptoActivityService activityService;
 
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @PostMapping("/api/activity/create")
+    @ApiOperation(value = "create activity", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @PostMapping(value="/api/activity/create",produces="application/json")
     public HttpStatus createActivity(@RequestBody ActivityDto act){
         UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         activityService.createNewActivity(act,userDetail.getId());
         return HttpStatus.CREATED;
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @GetMapping("/api/activity/{type}/cripto/{cripto}")
+    @ApiOperation(value = "get activity by type and ticker", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/activity/{type}/cripto/{cripto}",produces="application/json")
     public ResponseEntity<List<ActivityResultDto>> getActByTypeAndCripto (@PathVariable String type ,
                                                                           @PathVariable String cripto){
         return  ResponseEntity.ok().body(activityService.getActivitiesByTickerAndType(cripto,type));

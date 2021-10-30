@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoTransactionService;
@@ -19,8 +20,9 @@ public class CriptoTransactionController {
     @Autowired
     CriptoTransactionService transactionService;
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @PostMapping("/api/transaction/start/{idToNegociate}/activity/{actID}")
+    @ApiOperation(value = "start transaction", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @PostMapping(value="/api/transaction/start/{idToNegociate}/activity/{actID}",produces="application/json")
     public ResponseEntity<UserTransactionDto> startTransaction(@PathVariable Long idToNegociate,
                                                                @PathVariable Long actID){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -28,53 +30,60 @@ public class CriptoTransactionController {
         return ResponseEntity.ok().body(info);
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @PutMapping("/api/transaction/cancel")
+    @ApiOperation(value = "cancel transaction", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @PutMapping(value="/api/transaction/cancel", produces="application/json")
     public ResponseEntity<String> cancelTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         transactionService.cancelTransaction(userDetail.getId());
         return ResponseEntity.accepted().body("accepted");
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @GetMapping("/api/transaction/send/{idToNegociate}")
+    @ApiOperation(value = "check if user complete send", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/transaction/send/{idToNegociate}",produces="applicaton/json")
     public ResponseEntity checkUserCompleteSend(@PathVariable Long idToNegociate) throws Exception {
-        try {
             UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             TransactionBooleanResponseDto response = transactionService.checkUserCompleteSend(userDetail.getId(),idToNegociate);
             return ResponseEntity.ok().body(response);
-        }
-        catch (Exception e ){
-           TransactionBooleanResponseDto resp = new TransactionBooleanResponseDto();
-                resp.setErr_msg(e.getMessage());
-            return ResponseEntity.badRequest().body(resp);
-        }
     }
 
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @PutMapping("/api/transaction/confirm")
+    @ApiOperation(value = "confirm transaction", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @PutMapping(value="/api/transaction/confirm",produces="application/json")
     public ResponseEntity<String> confirmTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         transactionService.confirmTransaction(userDetail.getId());
         return ResponseEntity.accepted().body("accepted");
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @GetMapping("/api/transaction/confirm/start")
+    @ApiOperation(value = "check init transaction", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/transaction/confirm/start",produces="application/json")
     public ResponseEntity confirmStartTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(userDetail.getId());
         return ResponseEntity.accepted().body(response);
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @PostMapping("/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}")
+    @ApiOperation(value = "complete transaction", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @PostMapping(value="/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}",produces="application/json")
     public ResponseEntity<String> completeTransaction(@PathVariable Long idToNegociate,
                                                       @PathVariable Long activityId){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         transactionService.completeTransaction(activityId,userDetail.getId(),idToNegociate);
         return ResponseEntity.accepted().body("completed");
     }
+
+    @ApiOperation(value = "check user transaction in progress", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/transaction/inProgress/{iduser}",produces="application/json")
+    public ResponseEntity<TransactionBooleanResponseDto> transactionUserInProgress(@PathVariable Long idUser){
+       TransactionBooleanResponseDto response= transactionService.userIsInTransaction(idUser);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

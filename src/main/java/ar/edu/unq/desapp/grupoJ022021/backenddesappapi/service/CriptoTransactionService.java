@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.CancelTransactionException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
@@ -80,6 +81,11 @@ public class CriptoTransactionService {
     }
 
 
+    public TransactionBooleanResponseDto userIsInTransaction(Long iduser){
+        boolean active = isTransactionInProgress(iduser);
+        return new TransactionBooleanResponseDto(iduser,active);
+    }
+
     public void cancelTransaction(Long iduser){
         User user =  userRepository.findById(iduser);
         user.discountReputation(20L);
@@ -90,7 +96,7 @@ public class CriptoTransactionService {
     public TransactionBooleanResponseDto checkUserCompleteSend(Long selfUserId ,Long userID) throws Exception {
         if(KeyValueSaver.isCompletedTransaction(userID) == null){
             KeyValueSaver.removeData(userID,selfUserId);
-            throw new Exception("the transaction was canceled");
+            throw new CancelTransactionException("transaction was canceled");
         }
         else {
            boolean active =KeyValueSaver.isCompletedTransaction(userID);

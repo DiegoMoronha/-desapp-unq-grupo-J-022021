@@ -10,6 +10,8 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSa
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,8 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @ExceptionAspect
-    @PostMapping("/api/auth/register")
+    @ApiOperation(value = "register")
+    @PostMapping(value="/api/auth/register",produces="application/json")
     public ResponseEntity register(@Valid @RequestBody UserRegisterDto user) throws Exception {
            UserDetail userDetail = (UserDetail) userService.registerUser(user);
            String token = jwtTokenUtil.generateToken(userDetail);
@@ -40,7 +43,8 @@ public class UserController {
     }
 
     @ExceptionAspect
-    @PostMapping("/api/auth/login")
+    @ApiOperation(value = "login")
+    @PostMapping(value="/api/auth/login",produces="application/json")
     public ResponseEntity login(@Valid @RequestBody LoginUserDto user) throws Exception {
             UserDetail userDetail = (UserDetail) userService.login(user);
             String token = jwtTokenUtil.generateToken(userDetail);
@@ -50,7 +54,7 @@ public class UserController {
         }
 
 
-    @GetMapping("/api/users")
+    @GetMapping(value="/api/users",produces="application/json")
     public ResponseEntity getUsers() {
      List<UserResultDto> users= userService.getUsers();
         return ResponseEntity.ok().body(users);

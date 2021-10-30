@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoPrice;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoPriceService;
@@ -21,15 +22,17 @@ public class CriptoPriceController {
     @Autowired
     private CriptoPriceService criptoPriceService;
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @GetMapping("/api/cotization")
+    @ApiOperation(value = "get cotizations", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/cotization",produces="application/json")
     public ResponseEntity<List<CriptoPrice>> getCotizations() {
         List<CriptoPrice> cotizations = criptoPriceService.getCotizations();
         return ResponseEntity.ok().body(cotizations);
     }
 
-    @ApiOperation(value = "", authorizations = { @Authorization(value="JWT") })
-    @GetMapping("/api/cotization/{symbol}")
+    @ApiOperation(value = "get cotization by symbol", authorizations = { @Authorization(value="JWT") })
+    @ExceptionAspect
+    @GetMapping(value="/api/cotization/{symbol}",produces="application/json")
     public ResponseEntity<CriptoPrice> getCotizationBySymbol(@PathVariable String symbol) {
         CriptoPrice cotization = criptoPriceService.getCotizationBySymbol(symbol);
         return ResponseEntity.ok().body(cotization);
