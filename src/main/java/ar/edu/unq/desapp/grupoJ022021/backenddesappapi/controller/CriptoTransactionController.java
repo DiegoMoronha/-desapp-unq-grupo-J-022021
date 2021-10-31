@@ -41,7 +41,7 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "check if user complete send", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/transaction/send/{idToNegociate}",produces="applicaton/json")
+    @GetMapping(value="/api/transaction/send/{idToNegociate}")
     public ResponseEntity checkUserCompleteSend(@PathVariable Long idToNegociate) throws Exception {
             UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             TransactionBooleanResponseDto response = transactionService.checkUserCompleteSend(userDetail.getId(),idToNegociate);
@@ -51,7 +51,7 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "confirm transaction", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @PutMapping(value="/api/transaction/confirm",produces="application/json")
+    @PutMapping(value="/api/transaction/confirm")
     public ResponseEntity<String> confirmTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         transactionService.confirmTransaction(userDetail.getId());
@@ -60,7 +60,7 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "check init transaction", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/transaction/confirm/start",produces="application/json")
+    @GetMapping(value="/api/transaction/confirm/start")
     public ResponseEntity confirmStartTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(userDetail.getId());
@@ -69,7 +69,7 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "complete transaction", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @PostMapping(value="/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}",produces="application/json")
+    @PostMapping(value="/api/transaction/confirm/activity/{activityId}/finish/{idToNegociate}")
     public ResponseEntity<String> completeTransaction(@PathVariable Long idToNegociate,
                                                       @PathVariable Long activityId){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -79,7 +79,7 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "check user transaction in progress", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/transaction/inProgress/{iduser}",produces="application/json")
+    @GetMapping(value="/api/transaction/inProgress/{iduser}")
     public ResponseEntity<TransactionBooleanResponseDto> transactionUserInProgress(@PathVariable Long idUser){
        TransactionBooleanResponseDto response= transactionService.userIsInTransaction(idUser);
         return ResponseEntity.ok(response);

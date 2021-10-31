@@ -30,7 +30,7 @@ public class UserController {
 
     @ExceptionAspect
     @ApiOperation(value = "register")
-    @PostMapping(value="/api/auth/register",produces="application/json")
+    @PostMapping(value="/api/auth/register")
     public ResponseEntity register(@Valid @RequestBody UserRegisterDto user) throws Exception {
            UserDetail userDetail = (UserDetail) userService.registerUser(user);
            String token = jwtTokenUtil.generateToken(userDetail);
@@ -44,7 +44,7 @@ public class UserController {
 
     @ExceptionAspect
     @ApiOperation(value = "login")
-    @PostMapping(value="/api/auth/login",produces="application/json")
+    @PostMapping(value="/api/auth/login")
     public ResponseEntity login(@Valid @RequestBody LoginUserDto user) throws Exception {
             UserDetail userDetail = (UserDetail) userService.login(user);
             String token = jwtTokenUtil.generateToken(userDetail);
@@ -54,7 +54,7 @@ public class UserController {
         }
 
 
-    @GetMapping(value="/api/users",produces="application/json")
+    @GetMapping(value="/api/users")
     public ResponseEntity getUsers() {
      List<UserResultDto> users= userService.getUsers();
         return ResponseEntity.ok().body(users);

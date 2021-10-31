@@ -26,7 +26,7 @@ public class CriptoActivityController {
 
     @ApiOperation(value = "create activity", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @PostMapping(value="/api/activity/create",produces="application/json")
+    @PostMapping(value="/api/activity/create")
     public HttpStatus createActivity(@RequestBody ActivityDto act){
         UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         activityService.createNewActivity(act,userDetail.getId());
@@ -35,7 +35,7 @@ public class CriptoActivityController {
 
     @ApiOperation(value = "get activity by type and ticker", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/activity/{type}/cripto/{cripto}",produces="application/json")
+    @GetMapping(value="/api/activity/{type}/cripto/{cripto}")
     public ResponseEntity<List<ActivityResultDto>> getActByTypeAndCripto (@PathVariable String type ,
                                                                           @PathVariable String cripto){
         return  ResponseEntity.ok().body(activityService.getActivitiesByTickerAndType(cripto,type));

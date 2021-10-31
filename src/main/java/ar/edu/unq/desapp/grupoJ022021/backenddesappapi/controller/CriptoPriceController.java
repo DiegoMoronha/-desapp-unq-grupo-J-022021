@@ -24,7 +24,7 @@ public class CriptoPriceController {
 
     @ApiOperation(value = "get cotizations", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/cotization",produces="application/json")
+    @GetMapping(value="/api/cotization")
     public ResponseEntity<List<CriptoPrice>> getCotizations() {
         List<CriptoPrice> cotizations = criptoPriceService.getCotizations();
         return ResponseEntity.ok().body(cotizations);
@@ -32,7 +32,7 @@ public class CriptoPriceController {
 
     @ApiOperation(value = "get cotization by symbol", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/cotization/{symbol}",produces="application/json")
+    @GetMapping(value="/api/cotization/{symbol}")
     public ResponseEntity<CriptoPrice> getCotizationBySymbol(@PathVariable String symbol) {
         CriptoPrice cotization = criptoPriceService.getCotizationBySymbol(symbol);
         return ResponseEntity.ok().body(cotization);

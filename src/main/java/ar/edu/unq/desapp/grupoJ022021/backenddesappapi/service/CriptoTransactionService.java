@@ -99,9 +99,9 @@ public class CriptoTransactionService {
             throw new CancelTransactionException("transaction was canceled");
         }
         else {
-           boolean active =KeyValueSaver.isCompletedTransaction(userID);
-            boolean activeSelf =KeyValueSaver.isCompletedTransaction(selfUserId);
-           TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(userID,active);
+           Boolean active =KeyValueSaver.isCompletedTransaction(userID);
+           Boolean activeSelf =KeyValueSaver.isCompletedTransaction(selfUserId);
+            TransactionBooleanResponseDto resp =new TransactionBooleanResponseDto(userID,active);
             if(active && activeSelf){
                 KeyValueSaver.removeData(selfUserId,userID);
             }
