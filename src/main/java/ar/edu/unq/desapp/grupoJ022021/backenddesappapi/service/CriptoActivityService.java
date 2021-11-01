@@ -44,18 +44,20 @@ public class CriptoActivityService {
     }
 
 
-    public List<ActivityResultDto> getActivitiesByTickerAndType(String ticker ,String  actType){
+    public List<ActivityResultDto> getActivitiesByTickerAndType(Long idUser ,String ticker ,String  actType){
 
         List<ActivityResultDto> res = new ArrayList();
         List<CriptoActivity> activities =activityRepository.findByCriptoNameAndActivityType(ticker,actType);
 
         for (CriptoActivity act : activities){
             User user =act.getUser();
+            if(user.getId()!=idUser){
             ActivityResultDto activity =new ActivityResultDto(act.getHour(),act.getId(),user.getId(),act.getCriptoName(),
                     act.getValueCripto(),act.getNominals(),act.getAmountInArs(),
                    user.getName(),act.getUser().getLastName(),user.getOperations(),
                     user.getReputation());
             res.add(activity);
+            }
         }
         return res;
     }

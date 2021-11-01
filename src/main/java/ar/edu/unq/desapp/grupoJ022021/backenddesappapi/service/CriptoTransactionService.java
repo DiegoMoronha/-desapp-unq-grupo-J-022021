@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -35,9 +34,8 @@ public class CriptoTransactionService {
 
 
     public UserTransactionDto startTransaction(Long id,Long userIdToNegociate, Long actId){
-       if(initTransactionHour ==null){
-        initTransactionHour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
-       }
+        KeyValueSaver.putTransactionIdwithUsers(id,userIdToNegociate);
+        LocalDateTime hour = KeyValueSaver.dateTransaction(id,userIdToNegociate);
         CriptoActivity act=activityRepository.findById(actId).get();
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         KeyValueSaver.markActivityId(userIdToNegociate,actId);
@@ -45,29 +43,29 @@ public class CriptoTransactionService {
         boolean userCreatedActivity = activityRepository.findByIdAndUser(actId,userIdToNegociate)!=null;
         if(act.getActivityType().equals("buy") && userCreatedActivity) {
 
-            return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
+            return new UserTransactionDto(hour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
         else{
-            return checkSellOptionOrDefaultBuy(act,user,userCreatedActivity);
+            return checkSellOptionOrDefaultBuy(hour,act,user,userCreatedActivity);
         }
     }
 
 
-    private UserTransactionDto checkSellOptionOrDefaultBuy(CriptoActivity act,User user, boolean userCreatedActivity){
+    private UserTransactionDto checkSellOptionOrDefaultBuy(LocalDateTime hour,CriptoActivity act,User user, boolean userCreatedActivity){
         if(act.getActivityType().equals("sell") && userCreatedActivity){
-            return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
+            return new UserTransactionDto(hour,user.getName(),user.getLastName(),act.getCriptoName(),
                     act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                     user.getReputation(),user.getCvu());
         }
         else if(act.getActivityType().equals("sell") && !userCreatedActivity) {
-                return new UserTransactionDto(initTransactionHour, user.getName(), user.getLastName(), act.getCriptoName(),
+                return new UserTransactionDto(hour, user.getName(), user.getLastName(), act.getCriptoName(),
                         act.getValueCripto(), act.getAmountInArs(), act.getNominals(), user.getTransactions().size(),
                         user.getReputation(), user.getAddrWallet());
             }
             else{
-                return new UserTransactionDto(initTransactionHour,user.getName(),user.getLastName(),act.getCriptoName(),
+                return new UserTransactionDto(hour,user.getName(),user.getLastName(),act.getCriptoName(),
                         act.getValueCripto(),act.getAmountInArs(),act.getNominals(),user.getTransactions().size(),
                         user.getReputation(),user.getAddrWallet());
             }
@@ -123,14 +121,14 @@ public class CriptoTransactionService {
 
     public void completeTransaction(Long idActivity ,Long idUser,Long userIdToNegociate){
         confirmTransaction(idUser);
+        LocalDateTime hour = KeyValueSaver.dateTransaction(idUser,userIdToNegociate);
         CriptoActivity activity = activityRepository.findById(idActivity).get();
        if(usersCompleteTransaction(idUser,userIdToNegociate)) {
            User userToNegociate = userRepository.findById(userIdToNegociate);
            User user = userRepository.findById(idUser);
 
            LocalDateTime finishTransaction = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
-          initTransactionHour.plusMinutes(30);
-          Long score = generateScore(finishTransaction.isAfter(initTransactionHour));
+          Long score = generateScore(hour.plusMinutes(30).isAfter(finishTransaction));
           CriptoTransaction transaction = new CriptoTransaction(finishTransaction,activity.getActivityType()
                         , activity.getCriptoName(),activity.getNominals(),activity.getValueCripto(),
                         activity.getAmountInArs(), score,user);

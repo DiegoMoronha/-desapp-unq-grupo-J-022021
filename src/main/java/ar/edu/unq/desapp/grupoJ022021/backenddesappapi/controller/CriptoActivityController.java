@@ -38,6 +38,7 @@ public class CriptoActivityController {
     @GetMapping(value="/api/activity/{type}/cripto/{cripto}")
     public ResponseEntity<List<ActivityResultDto>> getActByTypeAndCripto (@PathVariable String type ,
                                                                           @PathVariable String cripto){
-        return  ResponseEntity.ok().body(activityService.getActivitiesByTickerAndType(cripto,type));
+        UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return  ResponseEntity.ok().body(activityService.getActivitiesByTickerAndType(userDetail.getId(),cripto,type));
     }
 }

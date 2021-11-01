@@ -41,7 +41,7 @@ public class AppData implements ApplicationRunner {
         CriptoTransaction t2= new CriptoTransaction(LocalDateTime.now(),"sell","ETH",1L,10.0,10.000,10L,u2);
         CriptoActivity a1 = new CriptoActivity(LocalDateTime.now(),"BTC",1l,10.0,1.000,"buy",u1);
         CriptoActivity a2 = new CriptoActivity(LocalDateTime.now(),"BTC",10L,50.0,100.000,"buy",u2);
-        CriptoActivity a3 = new CriptoActivity(LocalDateTime.now(),"ADA",10L,50.0,100.000,"sell",u1);
+        CriptoActivity a3 = new CriptoActivity(LocalDateTime.now(),"DOT",10L,50.0,100.000,"sell",u1);
 
         u1.setReputation(10L);
         u2.setReputation(10L);
