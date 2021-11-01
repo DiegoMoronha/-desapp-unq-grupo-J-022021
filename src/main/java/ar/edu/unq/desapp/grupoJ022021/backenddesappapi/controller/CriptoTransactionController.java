@@ -79,9 +79,9 @@ public class CriptoTransactionController {
 
     @ApiOperation(value = "check user transaction in progress", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
-    @GetMapping(value="/api/transaction/inProgress/{iduser}")
-    public ResponseEntity<TransactionBooleanResponseDto> transactionUserInProgress(@PathVariable Long idUser){
-       TransactionBooleanResponseDto response= transactionService.userIsInTransaction(idUser);
+    @GetMapping(value="/api/transaction/progress/{id}")
+    public ResponseEntity<TransactionBooleanResponseDto> transactionUserInProgress(@PathVariable Long id){
+       TransactionBooleanResponseDto response= transactionService.userIsInTransaction(id);
         return ResponseEntity.ok(response);
     }
 
