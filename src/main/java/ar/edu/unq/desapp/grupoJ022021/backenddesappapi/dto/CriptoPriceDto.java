@@ -1,8 +1,8 @@
-package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
+package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto;
 
 import java.time.LocalDateTime;
 
-public class CriptoPrice {
+public class CriptoPriceDto {
 
     private Long id  ;
     private LocalDateTime hourCotization;

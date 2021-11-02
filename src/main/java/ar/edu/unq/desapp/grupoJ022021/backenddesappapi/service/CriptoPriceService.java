@@ -1,14 +1,13 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.DollarPrice;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoPrice;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.CriptoPriceDto;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -24,11 +23,11 @@ public class CriptoPriceService {
     private RestTemplate restTemplate= new RestTemplate();
 
 
-    public CriptoPrice getCotizationBySymbol(String symbol) {
+    public CriptoPriceDto getCotizationBySymbol(String symbol) {
         Double dollar = priceUsd();
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
-        CriptoPrice cripto = restTemplate.getForObject(url, CriptoPrice.class);
+        CriptoPriceDto cripto = restTemplate.getForObject(url, CriptoPriceDto.class);
         Double priceCriptoInUsd = cripto.getPriceUsd();
         Double priceArs = priceCriptoInUsd * dollar;
         cripto.setPriceArs(priceArs);
@@ -37,15 +36,15 @@ public class CriptoPriceService {
         return cripto;
     }
 
-    public List<CriptoPrice> getCriptos(Double dollar, LocalDateTime hour){
-        List<CriptoPrice> criptosCotizations= new ArrayList<CriptoPrice>();
+    public List<CriptoPriceDto> getCriptos(Double dollar, LocalDateTime hour){
+        List<CriptoPriceDto> criptosCotizations= new ArrayList<CriptoPriceDto>();
         String url = "https://api1.binance.com/api/v3/ticker/price";
-        ResponseEntity<List<CriptoPrice>> response = restTemplate.exchange(url,HttpMethod.GET,null,
-                new ParameterizedTypeReference<List<CriptoPrice>>(){});
+        ResponseEntity<List<CriptoPriceDto>> response = restTemplate.exchange(url,HttpMethod.GET,null,
+                new ParameterizedTypeReference<List<CriptoPriceDto>>(){});
 
-        List<CriptoPrice> criptos =response.getBody();
+        List<CriptoPriceDto> criptos =response.getBody();
 
-        for (CriptoPrice cripto : criptos){
+        for (CriptoPriceDto cripto : criptos){
            if(criptoParities.contains(cripto.getSymbol())) {
                 Double priceCriptoInUsd = cripto.getPriceUsd();
                 Double priceArs =priceCriptoInUsd * dollar;
@@ -58,14 +57,14 @@ public class CriptoPriceService {
     }
 
 
-    public List<CriptoPrice> criptoCotizations(){
+    public List<CriptoPriceDto> criptoCotizations(){
             Double dollar = priceUsd();
             LocalDateTime hour =  LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
          return  getCriptos(dollar, hour);
         }
 
     @Cacheable("cotization")
-    public List<CriptoPrice> getCotizations(){
+    public List<CriptoPriceDto> getCotizations(){
 
         return criptoCotizations();
     }
