@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.CancelTransactionException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.CancelTransactionException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;

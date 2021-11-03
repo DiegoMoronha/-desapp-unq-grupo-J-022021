@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions;
+package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions;
 
 public class UserAlreadyExistsException extends RuntimeException{
 

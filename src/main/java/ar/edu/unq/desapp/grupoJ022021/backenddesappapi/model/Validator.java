@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.ValidationException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
 
 import java.util.regex.Pattern;
 

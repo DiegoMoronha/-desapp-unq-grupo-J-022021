@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Config;
+package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.config;
 
 import org.assertj.core.util.Lists;
 import org.springframework.context.annotation.Bean;

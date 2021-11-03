@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Config.JwtTokenUtil;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.config.JwtTokenUtil;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
@@ -11,7 +11,6 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

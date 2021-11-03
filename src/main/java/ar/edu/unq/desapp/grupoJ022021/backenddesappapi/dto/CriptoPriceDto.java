@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class CriptoPriceDto {
 
-    private Long id  ;
     private LocalDateTime hourCotization;
     private String symbol;
     private Double price ;

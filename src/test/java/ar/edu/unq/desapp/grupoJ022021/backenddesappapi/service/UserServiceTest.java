@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.UserAlreadyExistsException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import org.junit.After;
 import org.junit.Assert;

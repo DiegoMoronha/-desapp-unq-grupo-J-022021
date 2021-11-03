@@ -1,13 +1,10 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects;
 
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.BackendDesappApiApplication;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

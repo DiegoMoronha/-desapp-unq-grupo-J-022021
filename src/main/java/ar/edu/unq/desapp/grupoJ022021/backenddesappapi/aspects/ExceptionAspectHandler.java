@@ -1,19 +1,16 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.CancelTransactionException;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.UserAlreadyExistsException;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.UserDoesntExistException;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.Exceptions.ValidationException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.CancelTransactionException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ErrorLoginRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
-import io.jsonwebtoken.MalformedJwtException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 @Aspect
 @Component
