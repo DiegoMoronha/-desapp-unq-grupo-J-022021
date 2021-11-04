@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class User {
 
 
     public User(String name, String lastName, String email, String address, String password
-                    , String cvu, String addrWallet) throws Exception {
+                    , String cvu, String addrWallet) throws ValidationException {
         super();
         this.name = Validator.between(10,30,name,"name must contain between 10 and 30 characters");
         this.lastName= Validator.between(10,30,lastName,"lastName must contain between 10 and 30 characters");;

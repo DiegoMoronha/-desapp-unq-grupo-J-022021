@@ -15,7 +15,7 @@ public class Validator {
 
     }
 
-    public static String between(Integer min ,Integer max ,String str, String errorMessage) throws Exception {
+    public static String between(Integer min ,Integer max ,String str, String errorMessage) throws ValidationException {
 
         if(smallerThan(max,str)&& greaterThan(min,str)){
             return str ;
@@ -30,7 +30,7 @@ public class Validator {
         return EMAIL_REGEX.matcher(email).matches();
     }
 
-    public static String validateEmail(String email,String errorMessage) throws Exception {
+    public static String validateEmail(String email,String errorMessage) throws ValidationException {
         if(isEmailValid(email)){
             return email;
         }

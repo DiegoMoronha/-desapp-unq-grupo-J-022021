@@ -30,8 +30,6 @@ public class CriptoTransactionService {
     @Autowired
     private CriptoActivityRepository activityRepository;
 
-    private LocalDateTime initTransactionHour;
-
 
     public UserTransactionDto startTransaction(Long id,Long userIdToNegociate, Long actId){
         KeyValueSaver.putTransactionIdwithUsers(id,userIdToNegociate);
@@ -91,7 +89,7 @@ public class CriptoTransactionService {
         userRepository.save(user);
     }
 
-    public TransactionBooleanResponseDto checkUserCompleteSend(Long selfUserId ,Long userID) throws Exception {
+    public TransactionBooleanResponseDto checkUserCompleteSend(Long selfUserId ,Long userID) throws CancelTransactionException {
         if(KeyValueSaver.isCompletedTransaction(userID) == null){
             KeyValueSaver.removeData(userID,selfUserId);
             throw new CancelTransactionException("transaction was canceled");

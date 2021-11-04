@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExis
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
@@ -73,7 +74,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserDetails registerUser(UserRegisterDto userRegisterDto) throws Exception {
+    public UserDetails registerUser(UserRegisterDto userRegisterDto) throws ValidationException,UserAlreadyExistsException {
 
             verifyUserExist(userRegisterDto.getName(),userRegisterDto.getEmail(),userRegisterDto.getAddrWallet());
 
@@ -104,7 +105,7 @@ public class UserService implements UserDetailsService {
         return users ;
     }
 
-    public UserDetails login(LoginUserDto user) throws Exception {
+    public UserDetails login(LoginUserDto user) throws UserDoesntExistException {
         if(isValidUser(user.getUsername(),user.getPassword())){
             return loadUserByUsername(user.getUsername());
     }
@@ -117,14 +118,6 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByName(username);
         return new UserDetail(user.getName(),user.getPassword(), user.getId());
-    }
-
-    public void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (Exception e) {
-            throw new Exception("USER_DISABLED");
-        }
     }
 
     public User getUserById(Long id){

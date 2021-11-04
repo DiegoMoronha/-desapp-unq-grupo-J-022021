@@ -8,8 +8,7 @@ public class CriptoTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-
+    private Long id;
     private LocalDateTime hour;
     private String transactionType;
     private String criptoName;
@@ -33,5 +32,41 @@ public class CriptoTransaction {
         this.amountInArs = amountInArs;
         this.score = score;
         this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getHour() {
+        return hour;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public String getCriptoName() {
+        return criptoName;
+    }
+
+    public Long getNominals() {
+        return nominals;
+    }
+
+    public Double getCriptoAmount() {
+        return criptoAmount;
+    }
+
+    public Double getAmountInArs() {
+        return amountInArs;
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

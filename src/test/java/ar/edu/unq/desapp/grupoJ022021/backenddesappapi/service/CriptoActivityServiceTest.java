@@ -40,7 +40,7 @@ public class CriptoActivityServiceTest {
         activityService.createNewActivity(activityDto,1L);
         Assert.assertTrue(activityService.getActivitiesByUser(1L).size()>0);
         List<ActivityResultDto> res = activityService.getActivitiesByTickerAndType(1L,"BTC","buy");
-        Assert.assertEquals(res.get(0).getCriptoName(),"BTC");
+        Assert.assertEquals("BTC",res.get(0).getCriptoName());
 
     }
 
