@@ -37,7 +37,7 @@ public class CriptoPriceService {
     }
 
     public List<CriptoPriceDto> getCriptos(Double dollar, LocalDateTime hour){
-        List<CriptoPriceDto> criptosCotizations= new ArrayList<CriptoPriceDto>();
+        List<CriptoPriceDto> criptosCotizations= new ArrayList<>();
         String url = "https://api1.binance.com/api/v3/ticker/price";
         ResponseEntity<List<CriptoPriceDto>> response = restTemplate.exchange(url,HttpMethod.GET,null,
                 new ParameterizedTypeReference<List<CriptoPriceDto>>(){});

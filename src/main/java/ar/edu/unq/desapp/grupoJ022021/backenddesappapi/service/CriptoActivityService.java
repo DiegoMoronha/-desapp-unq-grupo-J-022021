@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityResultDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoActivity;
@@ -46,7 +45,7 @@ public class CriptoActivityService {
 
     public List<ActivityResultDto> getActivitiesByTickerAndType(Long idUser ,String ticker ,String  actType){
 
-        List<ActivityResultDto> res = new ArrayList();
+        List<ActivityResultDto> res = new ArrayList<>();
         List<CriptoActivity> activities =activityRepository.findByCriptoNameAndActivityType(ticker,actType);
 
         for (CriptoActivity act : activities){

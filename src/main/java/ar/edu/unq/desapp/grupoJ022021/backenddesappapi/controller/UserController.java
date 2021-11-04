@@ -5,6 +5,9 @@ import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.LoginUserDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserResultDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserAlreadyExistsException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.UserDoesntExistException;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.JwtResponse;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
@@ -30,7 +33,7 @@ public class UserController {
     @ExceptionAspect
     @ApiOperation(value = "register")
     @PostMapping(value="/api/auth/register")
-    public ResponseEntity register(@Valid @RequestBody UserRegisterDto user) throws Exception {
+    public ResponseEntity register(@Valid @RequestBody UserRegisterDto user) throws ValidationException, UserAlreadyExistsException {
            UserDetail userDetail = (UserDetail) userService.registerUser(user);
            String token = jwtTokenUtil.generateToken(userDetail);
            JwtResponse response= new JwtResponse(userDetail.getId(),userDetail.getUsername(),token);
@@ -44,7 +47,7 @@ public class UserController {
     @ExceptionAspect
     @ApiOperation(value = "login")
     @PostMapping(value="/api/auth/login")
-    public ResponseEntity login(@Valid @RequestBody LoginUserDto user) throws Exception {
+    public ResponseEntity login(@Valid @RequestBody LoginUserDto user) throws UserDoesntExistException {
             UserDetail userDetail = (UserDetail) userService.login(user);
             String token = jwtTokenUtil.generateToken(userDetail);
             JwtResponse response= new JwtResponse(userDetail.getId(),userDetail.getUsername(),token);

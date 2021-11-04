@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model;
 
-
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ValidationException;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +23,10 @@ public class User {
     private String addrWallet;
     
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CriptoTransaction.class)
-    private List<CriptoTransaction> transactions = new ArrayList<CriptoTransaction>();
+    private List<CriptoTransaction> transactions = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = CriptoActivity.class)
-    private List<CriptoActivity> activities = new ArrayList<CriptoActivity>();
+    private List<CriptoActivity> activities = new ArrayList<>();
 
     public User(){}
 
@@ -37,12 +35,12 @@ public class User {
                     , String cvu, String addrWallet) throws ValidationException {
         super();
         this.name = Validator.between(10,30,name,"name must contain between 10 and 30 characters");
-        this.lastName= Validator.between(10,30,lastName,"lastName must contain between 10 and 30 characters");;
+        this.lastName= Validator.between(10,30,lastName,"lastName must contain between 10 and 30 characters");
         this.email=Validator.validateEmail(email,"format email is incorrect");
         this.address = Validator.between(0,30,address,"address must contain between 0 and 30 characters");
         this.password= password;
         this.cvu= Validator.between(22,22,cvu,"cvu must contain 22 characters");
-        this.addrWallet= Validator.between(8,8,addrWallet,"Address Wallet must contain 8 characters");;
+        this.addrWallet= Validator.between(8,8,addrWallet,"Address Wallet must contain 8 characters");
 
     }
 
