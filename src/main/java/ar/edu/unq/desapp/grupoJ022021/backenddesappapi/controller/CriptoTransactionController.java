@@ -62,7 +62,7 @@ public class CriptoTransactionController {
     @ApiOperation(value = "check init transaction", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
     @GetMapping(value="/api/transaction/confirm/start")
-    public ResponseEntity confirmStartTransaction(){
+    public ResponseEntity<TransactionBooleanResponseDto> confirmStartTransaction(){
         UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TransactionBooleanResponseDto response = transactionService.notifyStartTransaction(userDetail.getId());
         return ResponseEntity.accepted().body(response);

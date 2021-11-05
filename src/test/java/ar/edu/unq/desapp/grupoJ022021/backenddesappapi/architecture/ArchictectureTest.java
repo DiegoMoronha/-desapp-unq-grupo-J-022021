@@ -33,9 +33,4 @@ public class ArchictectureTest {
                 .should().haveSimpleNameEndingWith("Service");
     }
 
-    @Test
-    public void classesControllerMustBeReturnResponseEntity() {
-        methods().that().areDeclaredInClassesThat().resideInAPackage("..controller..")
-                .and().haveRawReturnType(ResponseEntity.class);
-    }
 }

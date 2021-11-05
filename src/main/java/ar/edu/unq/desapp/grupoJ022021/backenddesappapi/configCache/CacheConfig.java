@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configCache;
 
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;

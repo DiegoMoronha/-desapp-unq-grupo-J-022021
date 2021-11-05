@@ -1,20 +1,12 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.bootstrap;
 
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.ActivityDto;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserRegisterDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoActivity;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.CriptoTransaction;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoActivityRepository;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.CriptoTransactionRepository;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.repository.UserRepository;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoActivityService;
-import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

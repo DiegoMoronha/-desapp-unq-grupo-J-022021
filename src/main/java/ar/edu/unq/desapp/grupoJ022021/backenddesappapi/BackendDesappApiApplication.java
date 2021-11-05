@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BackendDesappApiApplication {
 
-    public static Logger logger = LogManager.getLogger(BackendDesappApiApplication.class);
+    public static final Logger logger = LogManager.getLogger(BackendDesappApiApplication.class);
 
     public static void main(String[] args) {
 		SpringApplication.run(BackendDesappApiApplication.class, args);

@@ -33,7 +33,7 @@ public class UserController {
     @ExceptionAspect
     @ApiOperation(value = "register")
     @PostMapping(value="/api/auth/register")
-    public ResponseEntity register(@Valid @RequestBody UserRegisterDto user) throws ValidationException, UserAlreadyExistsException {
+    public ResponseEntity<JwtResponse> register(@Valid @RequestBody UserRegisterDto user) throws ValidationException, UserAlreadyExistsException {
            UserDetail userDetail = (UserDetail) userService.registerUser(user);
            String token = jwtTokenUtil.generateToken(userDetail);
            JwtResponse response= new JwtResponse(userDetail.getId(),userDetail.getUsername(),token);
@@ -47,7 +47,7 @@ public class UserController {
     @ExceptionAspect
     @ApiOperation(value = "login")
     @PostMapping(value="/api/auth/login")
-    public ResponseEntity login(@Valid @RequestBody LoginUserDto user) throws UserDoesntExistException {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginUserDto user) throws UserDoesntExistException {
             UserDetail userDetail = (UserDetail) userService.login(user);
             String token = jwtTokenUtil.generateToken(userDetail);
             JwtResponse response= new JwtResponse(userDetail.getId(),userDetail.getUsername(),token);
@@ -57,7 +57,7 @@ public class UserController {
 
 
     @GetMapping(value="/api/users")
-    public ResponseEntity getUsers() {
+    public ResponseEntity<List<UserResultDto>> getUsers() {
      List<UserResultDto> users= userService.getUsers();
         return ResponseEntity.ok().body(users);
     }
