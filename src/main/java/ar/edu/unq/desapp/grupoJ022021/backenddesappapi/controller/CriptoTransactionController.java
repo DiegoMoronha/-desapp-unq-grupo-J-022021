@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.controller;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.aspects.ExceptionAspect;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.UserTransactionDto;
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.CancelTransactionException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service.CriptoTransactionService;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.wrapper.UserDetail;
 import io.swagger.annotations.Api;
@@ -42,7 +43,7 @@ public class CriptoTransactionController {
     @ApiOperation(value = "check if user complete send", authorizations = { @Authorization(value="JWT") })
     @ExceptionAspect
     @GetMapping(value="/api/transaction/send/{idToNegociate}")
-    public ResponseEntity checkUserCompleteSend(@PathVariable Long idToNegociate) throws Exception {
+    public ResponseEntity checkUserCompleteSend(@PathVariable Long idToNegociate) throws CancelTransactionException {
             UserDetail userDetail= (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             TransactionBooleanResponseDto response = transactionService.checkUserCompleteSend(userDetail.getId(),idToNegociate);
             return ResponseEntity.ok().body(response);
