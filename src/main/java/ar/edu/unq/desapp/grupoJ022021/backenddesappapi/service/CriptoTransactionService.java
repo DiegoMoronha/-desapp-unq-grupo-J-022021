@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoJ022021.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.ActivityNotFound;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.exceptions.CancelTransactionException;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.configKeyValue.KeyValueSaver;
 import ar.edu.unq.desapp.grupoJ022021.backenddesappapi.dto.TransactionBooleanResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,7 +36,7 @@ public class CriptoTransactionService {
     public UserTransactionDto startTransaction(Long id,Long userIdToNegociate, Long actId){
         KeyValueSaver.putTransactionIdwithUsers(id,userIdToNegociate);
         LocalDateTime hour = KeyValueSaver.dateTransaction(id,userIdToNegociate);
-        CriptoActivity act=activityRepository.findById(actId).get();
+        CriptoActivity act=checkExistActivity(actId);
         KeyValueSaver.initTransaction(id,userIdToNegociate);
         KeyValueSaver.markActivityId(userIdToNegociate,actId);
         User user = userRepository.findById(userIdToNegociate);
@@ -50,6 +52,15 @@ public class CriptoTransactionService {
         }
     }
 
+    private CriptoActivity checkExistActivity(Long actId){
+        Optional<CriptoActivity> activity = activityRepository.findById(actId);
+        if(activity.isPresent()){
+            return activity.get();
+        }
+        else{
+            throw new ActivityNotFound("Activity not found");
+        }
+    }
 
     private UserTransactionDto checkSellOptionOrDefaultBuy(LocalDateTime hour,CriptoActivity act,User user, boolean userCreatedActivity){
         if(act.getActivityType().equals("sell") && userCreatedActivity){
@@ -120,7 +131,7 @@ public class CriptoTransactionService {
     public void completeTransaction(Long idActivity ,Long idUser,Long userIdToNegociate){
         confirmTransaction(idUser);
         LocalDateTime hour = KeyValueSaver.dateTransaction(idUser,userIdToNegociate);
-        CriptoActivity activity = activityRepository.findById(idActivity).get();
+        CriptoActivity activity = checkExistActivity(idActivity);
        if(usersCompleteTransaction(idUser,userIdToNegociate)) {
            User userToNegociate = userRepository.findById(userIdToNegociate);
            User user = userRepository.findById(idUser);

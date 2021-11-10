@@ -40,10 +40,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			} catch (IllegalArgumentException e) {
 
 			} catch (ExpiredJwtException e) {
-				System.out.println("JWT Token has expired");
+				logger.info("JWT Token has expired");
 			}
 			  catch(MalformedJwtException ex){
-				System.out.println("Token is not valid");
+				logger.info("Token is not valid");
 			}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 				}
 			}catch (Exception e){
-
+				logger.info("Unauthorized");
 			}
 		}
 		chain.doFilter(request, response);

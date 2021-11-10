@@ -20,8 +20,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final String HEADER = "Authorization";
-    private final String SECRET = "criptoP2P";
+    private final String header = "Authorization";
+    private final String secret = "criptoP2P";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -54,13 +54,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private Claims validateToken(HttpServletRequest request) {
-        String jwtToken = request.getHeader(HEADER);
-        return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+        String jwtToken = request.getHeader(header);
+        return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
-        String authenticationHeader = request.getHeader(HEADER);
+        String authenticationHeader = request.getHeader(header);
         if (authenticationHeader == null) return false;
 
         return true;
